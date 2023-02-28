@@ -21,7 +21,8 @@
 | Código | Descrição
 |:-:|-
 | 201 | Usuario cadastrado com sucesso
-| 400 | Erro na validação dos dados da requisição
+| 403 | Erro na requisição
+| 422 | Erro ao processar a requisição
 
 ---
 
@@ -42,8 +43,10 @@
 **Códigos de Resposta**
 | Código | Descrição
 |:-:|-
-| 201 | Usuario atualizado com sucesso
-| 400 | Erro na validação dos dados da requisição
+| 200 | Usuario atualizado com sucesso
+| 202 | Erro na execução do processamento
+| 204 | Usuario não encontrado
+| 403 | Erro na requisição
 
 ---
 
@@ -71,7 +74,8 @@
 | Código | Descrição
 |:-:|-
 | 200 | Usuario validado com sucesso
-| 400 | Erro na validação dos dados da requisição
+| 202 | Erro no processamento da requisição
+| 401 | Usuário ou Senha incorreto
 
 ---
 
@@ -90,8 +94,9 @@
 **Códigos de Resposta**
 | Código | Descrição
 |:-:|-
-| 201 | Objetivo persistido com sucesso
-| 400 | Erro na validação dos dados da requisição
+| 201 | Usuario cadastrado com sucesso
+| 403 | Erro na requisição
+| 422 | Erro ao processar a requisição
 
 
 `GET` /api/usuario/{id}/objetivo
@@ -107,7 +112,8 @@
 | Código | Descrição
 |:-:|-
 | 200 | Objetivo recuperado com sucesso
-| 400 | Erro na validação dos dados da requisição
+| 204 | Objetivo não encontrado
+| 403 | Erro na requisição
 
 ---
 
@@ -127,8 +133,9 @@
 **Códigos de Resposta**
 | Código | Descrição
 |:-:|-
-| 201 | Registro persistido com sucesso
-| 400 | Erro na validação dos dados da requisição
+| 201 | Usuario cadastrado com sucesso
+| 403 | Erro na requisição
+| 422 | Erro ao processar a requisição
 
 ---
 
@@ -161,7 +168,8 @@
 | Código | Descrição
 |:-:|-
 | 200 | Historico recuperado com sucesso
-| 400 | Erro na validação dos dados da requisição
+| 204 | Historico não encontrado
+| 403 | Erro na requisição
 
 ---
 
@@ -184,6 +192,7 @@
 | Código | Descrição
 |:-:|-
 | 200 | Relatorio recuperado com sucesso
-| 400 | Erro na validação dos dados da requisição
+| 204 | Erro na validação dos dados da requisição
+| 403 | Erro na requisição
 
 ---
