@@ -8,6 +8,19 @@ Uma API para o sistema de controlar a saúde do sono.
 
 ---
 
+## Endpoints
+- Usuário
+    - [Cadastrar](#cadastrar)
+    - [Atualizar Cadastro](#atualizar-cadastro)
+    - [Login](#login)
+- Sono
+    - [Objetivo](#objetivo)
+    - [Registrar](#registrar)
+    - [Histórico](#histórico)
+    - [Relatório](#relatório)
+
+---
+
 ### Cadastrar
 `POST` /api/usuario/cadastrar
 
@@ -200,7 +213,7 @@ Uma API para o sistema de controlar a saúde do sono.
 
 ---
 
-### Relatorio
+### Relatório
 `GET` /api/usuario/{id}/relatorio
 
 | campo | tipo | obrigatório | descrição
