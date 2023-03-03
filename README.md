@@ -1,4 +1,7 @@
 # Dream Control
+
+Uma API para o sistema de controlar a saúde do sono.
+
 ## FIAP - Activity ProductDesign
 
 ### Atividade Aula 3
@@ -8,12 +11,19 @@
 ### Cadastrar
 `POST` /api/usuario/cadastrar
 
+| campo | tipo | obrigatório | descrição
+|-------|------|:-------------:|--
+| nome | string | sim | é o nome do usuário
+| email | string | sim | é o email do usuário
+| senha | string | sim | é a senha do usuário, deve ter no mínimo 8 caracteres
+
+
 **Exemplo de corpo do request**
 ```
 {
-	"nome": "string",
-	"email": "string",
-	"senha": "string"
+	"nome": "Pedro Augusto",
+	"email": "pedro.silva@gmail.com",
+	"senha": "MinhSenha456"
 }
 ```
 
@@ -34,9 +44,9 @@
 **Exemplo de corpo do request**
 ```
 {
-	"nome": "string",
-	"email": "string",
-	"senha": "string"
+	"nome": "Thiago Matos",
+	"email": "thm@outroemail.com",
+	"senha": "novaSenha456"
 }
 ```
 
@@ -55,11 +65,16 @@
 ### Login
 `POST` /api/usuario/login
 
+| campo | tipo | obrigatório | descrição
+|-------|------|:-------------:|--
+| email | string | sim | é o email que o usuário realizou o cadastro
+| senha | string | sim | é a senha que o usuário realizou o cadastro
+
 **Exemplo de corpo do request**
 ```
 {
-	"email": "string",
-	"senha": "string"
+	"email": "thm@outroemail.com",
+	"senha": "novaSenha456"
 }
 ```
 
@@ -84,10 +99,15 @@
 ### Objetivo
 `POST` /api/usuario/{id}/objetivo
 
+| campo | tipo | obrigatório | descrição
+|-------|------|:-------------:|--
+| duracao | int | sim | é um integer que representa o objetivo do usuário em relação ao sono, deve ser maior que zero
+
+
 **Exemplo de corpo do request**
 ```
 {
-	"duracao": "int"
+	"duracao": 60
 }
 ```
 
@@ -104,7 +124,7 @@
 **Exemplo de corpo do response**
 ```
 {
-	"duracao": "int"
+	"duracao": 60
 }
 ```
 
@@ -122,11 +142,16 @@
 ### Registrar
 `POST` /api/usuario/{id}/registrar
 
+| campo | tipo | obrigatório | descrição
+|-------|------|:-------------:|--
+| data | date | sim | é a data que o usuário quer fazer o registro
+| time | datetime | sim | é o período de sono do usuário na data em questão
+
 **Exemplo de corpo do request**
 ```
 {
-	"data": "date",
-	"time": "datetime"
+	"data": "2023-03-02",
+	"time": "22:00:00"
 }
 ```
 
@@ -147,20 +172,20 @@
 **Exemplo de corpo do response**
 ```
 {
-	"registros": [
-		{
-			"data": "date",
-			"time": "datetime"
-		},
-		{
-			"data": "date",
-			"time": "datetime"
-		},
-		{
-			"data": "date",
-			"time": "datetime"
-		}	
-	]
+    "registros": [
+        {
+            "data": "2022-02-01",
+            "time": "2022-02-01T14:30:00Z"
+        },
+        {
+            "data": "2022-02-02",
+            "time": "2022-02-02T11:15:00Z"
+        },
+        {
+            "data": "2022-02-03",
+            "time": "2022-02-03T18:20:00Z"
+        }    
+    ]
 }
 ```
 
@@ -178,13 +203,20 @@
 ### Relatorio
 `GET` /api/usuario/{id}/relatorio
 
+| campo | tipo | obrigatório | descrição
+|-------|------|:-------------:|--
+| inicio | date | sim | é a data inicial do relatório
+| fim | date | sim | é a data final do relatório
+| tempoTotal | datetime | sim | é o tempo total de sono que o usuário teve durante o período de tempo
+| objetivo | datetime | sim | é o objetivo inicial que o usuário tinha definido
+
 **Exemplo de corpo do response**
 ```
 {
-	"inicio": "date",
-	"fim": "date",
-	"tempoTotal": "datetime",
-	"objetivo": "datetime",
+    "inicio": "2022-02-01",
+    "fim": "2022-02-07",
+    "tempoTotal": "PT14H15M30S",
+    "objetivo": "PT20H"
 }
 ```
 
