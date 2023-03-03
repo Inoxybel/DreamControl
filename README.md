@@ -32,7 +32,7 @@ Uma API para o sistema de controlar a saúde do sono.
 
 
 **Exemplo de corpo do request**
-```
+```js
 {
 	"nome": "Pedro Augusto",
 	"email": "pedro.silva@gmail.com",
@@ -55,7 +55,7 @@ Uma API para o sistema de controlar a saúde do sono.
 `PUT` /api/usuario/{id}
 
 **Exemplo de corpo do request**
-```
+```js
 {
 	"nome": "Thiago Matos",
 	"email": "thm@outroemail.com",
@@ -84,7 +84,7 @@ Uma API para o sistema de controlar a saúde do sono.
 | senha | string | sim | é a senha que o usuário realizou o cadastro
 
 **Exemplo de corpo do request**
-```
+```js
 {
 	"email": "thm@outroemail.com",
 	"senha": "novaSenha456"
@@ -92,7 +92,7 @@ Uma API para o sistema de controlar a saúde do sono.
 ```
 
 **Exemplo de corpo do response**
-```
+```js
 {
 	"id": "string"
 }
@@ -118,7 +118,7 @@ Uma API para o sistema de controlar a saúde do sono.
 
 
 **Exemplo de corpo do request**
-```
+```js
 {
 	"duracao": 60
 }
@@ -135,7 +135,7 @@ Uma API para o sistema de controlar a saúde do sono.
 `GET` /api/usuario/{id}/objetivo
 
 **Exemplo de corpo do response**
-```
+```js
 {
 	"duracao": 60
 }
@@ -161,7 +161,7 @@ Uma API para o sistema de controlar a saúde do sono.
 | time | datetime | sim | é o período de sono do usuário na data em questão
 
 **Exemplo de corpo do request**
-```
+```js
 {
 	"data": "2023-03-02",
 	"time": "22:00:00"
@@ -183,7 +183,7 @@ Uma API para o sistema de controlar a saúde do sono.
 `GET` /api/usuario/{id}/historico
 
 **Exemplo de corpo do response**
-```
+```js
 {
     "registros": [
         {
@@ -224,7 +224,7 @@ Uma API para o sistema de controlar a saúde do sono.
 | objetivo | datetime | sim | é o objetivo inicial que o usuário tinha definido
 
 **Exemplo de corpo do response**
-```
+```js
 {
     "inicio": "2022-02-01",
     "fim": "2022-02-07",
