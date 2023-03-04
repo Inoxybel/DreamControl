@@ -127,7 +127,7 @@ Uma API para o sistema de controlar a saúde do sono.
 ```js
 {
 	"duracao": 15,
-    "objetivo": 120
+    	"objetivo": 120
 }
 ```
 
@@ -146,7 +146,7 @@ Uma API para o sistema de controlar a saúde do sono.
 
 | Campo | Tipo | Descrição
 |:-------:|:------:|-------------
-| duracao | int | é o prazo em dias que o usuário deseja alcançar o objetivoé o prazo em dias que o usuário deseja alcançar o objetivo, deve ser maior que zero
+| duracao | int | é o prazo em dias que o usuário deseja alcançar o objetivo, deve ser maior que zero
 
 ```js
 {
