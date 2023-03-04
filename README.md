@@ -21,13 +21,13 @@ Uma API para o sistema de controlar a saúde do sono.
 
 ---
 
-### Cadastrar
+## Cadastrar
 `POST` /api/usuario/cadastrar
 
-| campo | tipo | obrigatório | descrição
-|-------|------|:-------------:|--
+| Campo | Tipo | Obrigatório | Descrição
+|:-------:|:------:|:-------------:|--
 | nome | string | sim | é o nome do usuário
-| email | string | sim | é o email do usuário
+| email | string | sim | é o email do usuário, deve respeitar o ReGex(^[A-Za-z0-9+_.-]+@(.+)$)
 | senha | string | sim | é a senha do usuário, deve ter no mínimo 8 caracteres
 
 
@@ -36,7 +36,7 @@ Uma API para o sistema de controlar a saúde do sono.
 {
 	"nome": "Pedro Augusto",
 	"email": "pedro.silva@gmail.com",
-	"senha": "MinhSenha456"
+	"senha": "Senha123"
 }
 ```
 
@@ -51,15 +51,15 @@ Uma API para o sistema de controlar a saúde do sono.
 
 ---
 
-### Atualizar Cadastro
+## Atualizar Cadastro
 `PUT` /api/usuario/{id}
 
 **Exemplo de corpo do request**
 ```js
 {
 	"nome": "Thiago Matos",
-	"email": "thm@outroemail.com",
-	"senha": "novaSenha456"
+	"email": "thdevs@live.com",
+	"senha": "Senha123"
 }
 ```
 
@@ -75,26 +75,31 @@ Uma API para o sistema de controlar a saúde do sono.
 
 ---
 
-### Login
+## Login
 `POST` /api/usuario/login
 
-| campo | tipo | obrigatório | descrição
-|-------|------|:-------------:|--
-| email | string | sim | é o email que o usuário realizou o cadastro
-| senha | string | sim | é a senha que o usuário realizou o cadastro
+| Campo | Tipo | Obrigatório | Descrição
+|:-------:|:------:|:-------------:|--
+| email | string | sim | é o email cadastrado pelo usuário
+| senha | string | sim | é a senha cadastrada pelo usuário
 
 **Exemplo de corpo do request**
 ```js
 {
-	"email": "thm@outroemail.com",
-	"senha": "novaSenha456"
+	"email": "usuario@email.com",
+	"senha": "senha123"
 }
 ```
 
 **Exemplo de corpo do response**
+
+| Campo | Tipo | Descrição
+|:-------:|:------:|-------------
+| id | string | GUID gerado no cadastro que identifica o usuário no sistema
+
 ```js
 {
-	"id": "string"
+	"id": "1be7d074-a639-43ed-8cb3-d051252bc919"
 }
 ```
 
@@ -109,18 +114,20 @@ Uma API para o sistema de controlar a saúde do sono.
 
 ---
 
-### Objetivo
+## Objetivo
 `POST` /api/usuario/{id}/objetivo
 
-| campo | tipo | obrigatório | descrição
-|-------|------|:-------------:|--
-| duracao | int | sim | é um integer que representa o objetivo do usuário em relação ao sono, deve ser maior que zero
+| Campo | Tipo | Obrigatório | Descrição
+|:-------:|:------:|:-------------:|--
+| duracao | int | sim | é o prazo em dias que o usuário deseja alcançar o objetivo, deve ser maior que zero
+| objetivo | int | sim | é o objetivo em horas que o usuário pretende alcançar no tempo definido, deve ser maior que zero e menor que: duracao * 16
 
 
 **Exemplo de corpo do request**
 ```js
 {
-	"duracao": 60
+	"duracao": 15,
+    "objetivo": 120
 }
 ```
 
@@ -131,13 +138,19 @@ Uma API para o sistema de controlar a saúde do sono.
 | 403 | Erro na requisição
 | 422 | Erro ao processar a requisição
 
+---
 
 `GET` /api/usuario/{id}/objetivo
 
 **Exemplo de corpo do response**
+
+| Campo | Tipo | Descrição
+|:-------:|:------:|-------------
+| duracao | int | é o prazo em dias que o usuário deseja alcançar o objetivoé o prazo em dias que o usuário deseja alcançar o objetivo, deve ser maior que zero
+
 ```js
 {
-	"duracao": 60
+	"duracao": 15
 }
 ```
 
@@ -152,11 +165,11 @@ Uma API para o sistema de controlar a saúde do sono.
 
 ---
 
-### Registrar
+## Registrar
 `POST` /api/usuario/{id}/registrar
 
-| campo | tipo | obrigatório | descrição
-|-------|------|:-------------:|--
+| Campo | Tipo | Obrigatório | Descrição
+|:-------:|:------:|:-------------:|--
 | data | date | sim | é a data que o usuário quer fazer o registro
 | time | datetime | sim | é o período de sono do usuário na data em questão
 
@@ -179,8 +192,13 @@ Uma API para o sistema de controlar a saúde do sono.
 
 ---
 
-### Histórico
+## Histórico
 `GET` /api/usuario/{id}/historico
+
+| Campo | Tipo | Descrição
+|:-------:|:------:|--
+| data | date | é a data que o usuário fez o registro
+| tempo | time | é o período de sono do usuário na data mencionada
 
 **Exemplo de corpo do response**
 ```js
@@ -188,15 +206,15 @@ Uma API para o sistema de controlar a saúde do sono.
     "registros": [
         {
             "data": "2022-02-01",
-            "time": "2022-02-01T14:30:00Z"
+            "tempo": "14H30M00S"
         },
         {
             "data": "2022-02-02",
-            "time": "2022-02-02T11:15:00Z"
+            "tempo": "11H15M00S"
         },
         {
             "data": "2022-02-03",
-            "time": "2022-02-03T18:20:00Z"
+            "tempo": "15H20M00S"
         }    
     ]
 }
@@ -213,10 +231,10 @@ Uma API para o sistema de controlar a saúde do sono.
 
 ---
 
-### Relatório
+## Relatório
 `GET` /api/usuario/{id}/relatorio
 
-| campo | tipo | obrigatório | descrição
+| Campo | Tipo | Obrigatório | Descrição
 |-------|------|:-------------:|--
 | inicio | date | sim | é a data inicial do relatório
 | fim | date | sim | é a data final do relatório
@@ -227,9 +245,9 @@ Uma API para o sistema de controlar a saúde do sono.
 ```js
 {
     "inicio": "2022-02-01",
-    "fim": "2022-02-07",
-    "tempoTotal": "PT14H15M30S",
-    "objetivo": "PT20H"
+    "fim": "2022-02-16",
+    "tempoTotal": "115H15M30S",
+    "objetivo": "120H"
 }
 ```
 
