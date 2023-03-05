@@ -120,7 +120,7 @@ Uma API para o sistema de controlar a saúde do sono.
 | Campo | Tipo | Obrigatório | Descrição
 |:-------:|:------:|:-------------:|--
 | duracao | int | sim | é o prazo em dias que o usuário deseja alcançar o objetivo, deve ser maior que zero
-| objetivo | int | sim | é o objetivo em horas que o usuário pretende alcançar no tempo definido, deve ser maior que zero e menor que: duracao * 16
+| objetivo | int | sim | é o objetivo em horas que o usuário pretende alcançar no tempo definido, deve ser maior que zero e menor ou igual que ***duracao * 16***
 
 
 **Exemplo de corpo do request**
