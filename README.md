@@ -95,12 +95,10 @@ Uma API para o sistema de controlar a saúde do sono.
 
 | Campo | Tipo | Descrição
 |:-------:|:------:|-------------
-| id | string | GUID gerado no cadastro que identifica o usuário no sistema
+|| string | GUID gerado no cadastro que identifica o usuário no sistema
 
 ```js
-{
-	"id": "1be7d074-a639-43ed-8cb3-d051252bc919"
-}
+"1be7d074-a639-43ed-8cb3-d051252bc919"
 ```
 
 **Códigos de Resposta**
@@ -115,7 +113,7 @@ Uma API para o sistema de controlar a saúde do sono.
 ---
 
 ## Objetivo
-`POST` /api/usuario/{id}/objetivo
+`POST` /api/sono/{userId}/objetivo
 
 | Campo | Tipo | Obrigatório | Descrição
 |:-------:|:------:|:-------------:|--
@@ -127,7 +125,7 @@ Uma API para o sistema de controlar a saúde do sono.
 ```js
 {
 	"duracao": 15,
-    	"objetivo": 120
+    "objetivo": 120
 }
 ```
 
@@ -140,7 +138,7 @@ Uma API para o sistema de controlar a saúde do sono.
 
 ---
 
-`GET` /api/usuario/{id}/objetivo
+`GET` /api/sono/{userId}/objetivo
 
 **Exemplo de corpo do response**
 
@@ -166,12 +164,12 @@ Uma API para o sistema de controlar a saúde do sono.
 ---
 
 ## Registrar
-`POST` /api/usuario/{id}/registrar
+`POST` /api/sono/{userId}/registrar
 
 | Campo | Tipo | Obrigatório | Descrição
 |:-------:|:------:|:-------------:|--
-| data | date | sim | é a data que o usuário quer fazer o registro
-| time | datetime | sim | é o período de sono do usuário na data em questão
+| data | LocalDate | sim | é a data que o usuário quer fazer o registro
+| tempo | LocalTime | sim | é o período de sono do usuário na data em questão
 
 **Exemplo de corpo do request**
 ```js
@@ -193,12 +191,11 @@ Uma API para o sistema de controlar a saúde do sono.
 ---
 
 ## Histórico
-`GET` /api/usuario/{id}/historico
+`GET` /api/sono/{userId}/historico
 
 | Campo | Tipo | Descrição
 |:-------:|:------:|--
-| data | date | é a data que o usuário fez o registro
-| tempo | time | é o período de sono do usuário na data mencionada
+| registros | ArrayList<Registro> | é a lista que contém os registros efetuados dentro da duração do objetivo.
 
 **Exemplo de corpo do response**
 ```js
@@ -206,15 +203,15 @@ Uma API para o sistema de controlar a saúde do sono.
     "registros": [
         {
             "data": "2022-02-01",
-            "tempo": "14H30M00S"
+            "tempo": "14:30:00"
         },
         {
             "data": "2022-02-02",
-            "tempo": "11H15M00S"
+            "tempo": "11:15:00"
         },
         {
             "data": "2022-02-03",
-            "tempo": "15H20M00S"
+            "tempo": "15:20:00"
         }    
     ]
 }
@@ -234,19 +231,19 @@ Uma API para o sistema de controlar a saúde do sono.
 ## Relatório
 `GET` /api/usuario/{id}/relatorio
 
-| Campo | Tipo | Obrigatório | Descrição
-|-------|------|:-------------:|--
-| inicio | date | sim | é a data inicial do relatório
-| fim | date | sim | é a data final do relatório
-| tempoTotal | datetime | sim | é o tempo total de sono que o usuário teve durante o período de tempo
-| objetivo | datetime | sim | é o objetivo inicial que o usuário tinha definido
+| Campo | Tipo | Descrição
+|-------|------|--
+| inicio | LocalDate | é a data inicial do relatório
+| fim | LocalDate | é a data final do relatório
+| tempoTotal | Duration | é o tempo total de sono que o usuário teve durante o período de tempo
+| objetivo | String | é o objetivo inicial que o usuário tinha definido
 
 **Exemplo de corpo do response**
 ```js
 {
     "inicio": "2022-02-01",
     "fim": "2022-02-16",
-    "tempoTotal": "115H15M30S",
+    "tempoTotal": "46H7M53S",
     "objetivo": "120H"
 }
 ```

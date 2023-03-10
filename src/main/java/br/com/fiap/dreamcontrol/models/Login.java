@@ -1,6 +1,11 @@
 package br.com.fiap.dreamcontrol.models;
 
-import java.math.BigDecimal;
+/*
+Isso deveria ser um objeto de transferência que abstrai somente
+o atributo "nome" da classe "Cadastro" para fins de consulta no banco.
+Porém, entretanto, toda via, aqui por hora será tratado como objeto 
+de domínio até a sequência das demais aulas.
+*/
 
 public class Login {
     private String email;
@@ -29,7 +34,7 @@ public class Login {
 
 	@Override
 	public String toString() {
-        return "Email: " + email + "\nSenha=" + senha;
+        return "Email: " + email + "\nSenha: " + senha;
     }
     
     
