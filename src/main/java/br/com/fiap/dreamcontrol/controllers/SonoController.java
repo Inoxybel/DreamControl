@@ -5,10 +5,10 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
-import javax.management.relation.RelationException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,43 +21,45 @@ import br.com.fiap.dreamcontrol.models.Relatorio;
 public class SonoController {
 
     Logger log = LoggerFactory.getLogger(SonoController.class);
-    
+
     @PostMapping("/api/sono/{userId}/objetivo")
-    public String cadastrarObjetivo(@RequestBody Objetivo objetivo, @PathVariable int userId)
+    public ResponseEntity<Objetivo> cadastrarObjetivo(@RequestBody Objetivo objetivo, @PathVariable int userId)
     {
         log.info("cadastrando objetivo: " + objetivo);
-        return "" + objetivo;
+        return ResponseEntity.status(HttpStatus.CREATED).body(objetivo);
     }
 
     @GetMapping("/api/sono/{userId}/objetivo")
-    public String recuperarObjetivo(@PathVariable int userId)
+    public ResponseEntity<Objetivo> recuperarObjetivo(@PathVariable int userId)
     {
         log.info("buscando objetivo com id: " + userId);
-        return userId + "\nduracao: " + new Objetivo(15, 120).getObjetivo(); 
+        Objetivo objetivo = new Objetivo(15, 120);
+        return ResponseEntity.status(HttpStatus.OK).body(objetivo);
     }
 
     @PostMapping("/api/sono/{userId}/registrar")
-    public String registrarSono(@RequestBody Registro registro, @PathVariable int userId)
+    public ResponseEntity<Registro> registrarSono(@RequestBody Registro registro, @PathVariable int userId)
     {
         log.info("registrando um periodo de sono: " + registro);
-        return userId + "\n" + registro;
+        return ResponseEntity.status(HttpStatus.CREATED).body(registro);
     }
 
     @GetMapping("/api/sono/{userId}/historico")
-    public String recuperarHistorico(@PathVariable int userId)
-    {
+    public ResponseEntity<Historico> recuperarHistorico(@PathVariable int userId) {
         log.info("buscando historico de sono com id: " + userId);
-        return userId + "\n" + new Historico(new ArrayList<Registro>(){
+        Historico historico = new Historico(new ArrayList<Registro>(){
             {
                 add(new Registro(LocalDate.of(2023, 03, 10), LocalTime.of(7,20,00)));
                 add(new Registro(LocalDate.of(2023, 03, 9), LocalTime.of(8,20,00)));
                 add(new Registro(LocalDate.of(2023, 03, 8), LocalTime.of(7,50,00)));
             }
         });
+        return ResponseEntity.status(HttpStatus.OK).body(historico);
     }
 
+
     @GetMapping("/api/sono/{userId}/relatorio")
-    public String recuperarRelatorio(@PathVariable int userId)
+    public ResponseEntity<Relatorio> recuperarRelatorio(@PathVariable int userId)
     {
         log.info("buscando relatorio de sono com id: " + userId);
         var historico = new Historico(new ArrayList<Registro>(){
@@ -75,15 +77,17 @@ public class SonoController {
 
         for (Registro r : historico.getRegistros()) {
             total = total.plusHours(r.getTempo().getHour())
-                         .plusMinutes(r.getTempo().getMinute())
-                         .plusSeconds(r.getTempo().getSecond());
+                    .plusMinutes(r.getTempo().getMinute())
+                    .plusSeconds(r.getTempo().getSecond());
         };
 
-        return userId + "\n" + new Relatorio(
-            LocalDate.of(2023,03,01), 
-            LocalDate.of(2023,03,15), 
-            total,
-            120
+        Relatorio relatorio = new Relatorio(
+                LocalDate.of(2023,03,01),
+                LocalDate.of(2023,03,15),
+                total,
+                120
         );
+
+        return ResponseEntity.ok(relatorio);
     }
 }
