@@ -27,14 +27,16 @@ public class UsuarioController {
 
 
     @PutMapping("/api/usuario/{id}")
-    public ResponseEntity<Usuario> atualizar(@RequestBody Usuario usuario, @PathVariable int id) {
-        log.info("atualizando cadastro de usuario: " + usuario);
+    public ResponseEntity<Usuario> atualizar(@RequestBody Usuario usuario, @PathVariable int id)
+    {
+        log.info("atualizando cadastro de usuario pelo id: " + id);
         return ResponseEntity.ok(usuario);
     }
 
     @PostMapping("/api/usuario/login")
-    public ResponseEntity<String> logar(@RequestBody Login credenciais) {
+    public ResponseEntity<String> logar(@RequestBody Login credenciais)
+    {
         log.info("validando login: " + credenciais);
-        return ResponseEntity.ok("guid");
+        return ResponseEntity.ok("guid: 1be7d074-a639-43ed-8cb3-d051252bc919");
     }
 }
