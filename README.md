@@ -11,7 +11,7 @@ Uma API para o sistema de controlar a saúde do sono.
 ## Endpoints
 - Usuário
     - [Cadastrar](#cadastrar)
-    - [Atualizar Cadastro](#atualizar-cadastro)
+    - [Atualizar Cadastro](#atualizar-usuario)
     - [Login](#login)
 - Sono
     - [Objetivo](#objetivo)
@@ -95,7 +95,7 @@ Uma API para o sistema de controlar a saúde do sono.
 
 | Campo | Tipo | Descrição
 |:-------:|:------:|-------------
-|| string | GUID gerado no cadastro que identifica o usuário no sistema
+|| string | GUID gerado no usuario que identifica o usuário no sistema
 
 ```js
 "1be7d074-a639-43ed-8cb3-d051252bc919"
