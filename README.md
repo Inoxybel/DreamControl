@@ -175,7 +175,7 @@ Uma API para o sistema de controlar a saúde do sono.
 ```js
 {
 	"data": "2023-03-02",
-	"time": "22:00:00"
+	"tempo": "22:00:00"
 }
 ```
 
