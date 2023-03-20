@@ -16,6 +16,7 @@ Uma API para o sistema de controlar a saúde do sono.
 - Sono
     - [Objetivo](#objetivo)
     - [Registrar](#registrar)
+    - [Deletar Registro](#deletar-registro)
     - [Histórico](#histórico)
     - [Relatório](#relatório)
 
