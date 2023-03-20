@@ -22,6 +22,8 @@ public class UsuarioController {
     public ResponseEntity<Usuario> cadastrar(@RequestBody Usuario usuario)
     {
         log.info("cadastrando usuario: " + usuario);
+        // Aqui vai ser chamado o serviço que realiza o cadastro do usuário
+        // adicionaremos ao decorrer das aulas, quando fizermos a camada service
         return ResponseEntity.status(HttpStatus.CREATED).body(usuario);
     }
 
@@ -30,6 +32,8 @@ public class UsuarioController {
     public ResponseEntity<Usuario> atualizar(@RequestBody Usuario usuario, @PathVariable int id)
     {
         log.info("atualizando cadastro de usuario pelo id: " + id);
+        // Aqui vai ser chamado o serviço que atualiza o cadastro do usuário com o ID especificado
+        // adicionaremos ao decorrer das aulas, quando fizermos a camada service
         return ResponseEntity.ok(usuario);
     }
 
@@ -37,6 +41,8 @@ public class UsuarioController {
     public ResponseEntity<String> logar(@RequestBody Login credenciais)
     {
         log.info("validando login: " + credenciais);
+        // Aqui vai ser chamado o serviço que valida as credenciais do usuário
+        // adicionaremos ao decorrer das aulas, quando fizermos a camada service
         return ResponseEntity.ok("guid: 1be7d074-a639-43ed-8cb3-d051252bc919");
     }
 }

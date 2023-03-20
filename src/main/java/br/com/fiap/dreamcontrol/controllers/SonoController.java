@@ -20,12 +20,17 @@ import br.com.fiap.dreamcontrol.models.Relatorio;
 @RestController
 public class SonoController {
 
+    // Vale ressaltar que os objetos criados aqui, foram criados puramente com o intuito de demonstrar que
+    // os métodos estão funcionando como o esperado
+
     Logger log = LoggerFactory.getLogger(SonoController.class);
 
     @PostMapping("/api/sono/{userId}/objetivo")
     public ResponseEntity<Objetivo> cadastrarObjetivo(@RequestBody Objetivo objetivo, @PathVariable int userId)
     {
         log.info("cadastrando objetivo: " + objetivo);
+        // Aqui vai ser chamado o serviço que realiza o cadastro do objetivo para o usuário com ID especificado
+        // adicionaremos ao decorrer das aulas, quando fizermos a camada service
         return ResponseEntity.status(HttpStatus.CREATED).body(objetivo);
     }
 
@@ -34,6 +39,8 @@ public class SonoController {
     {
         log.info("buscando objetivo com id: " + userId);
         Objetivo objetivo = new Objetivo(15, 120);
+        // Aqui vai ser chamado o serviço que busca o objetivo do usuário com ID especificado
+        // adicionaremos ao decorrer das aulas, quando fizermos a camada service
         return ResponseEntity.status(HttpStatus.OK).body(objetivo);
     }
 
@@ -41,12 +48,16 @@ public class SonoController {
     public ResponseEntity<Registro> registrarSono(@RequestBody Registro registro, @PathVariable int userId)
     {
         log.info("registrando um periodo de sono: " + registro);
+        // Aqui vai ser chamado o serviço que realiza o registro do período de sono do usuário com ID especificado
+        // adicionaremos ao decorrer das aulas, quando fizermos a camada service
         return ResponseEntity.status(HttpStatus.CREATED).body(registro);
     }
 
     @GetMapping("/api/sono/{userId}/historico")
     public ResponseEntity<Historico> recuperarHistorico(@PathVariable int userId) {
         log.info("buscando historico de sono com id: " + userId);
+        // Aqui vai ser chamado o serviço que busca o histórico de sono do usuário com ID especificado
+        // adicionaremos ao decorrer das aulas, quando fizermos a camada service
         Historico historico = new Historico(new ArrayList<Registro>(){
             {
                 add(new Registro(LocalDate.of(2023, 03, 10), LocalTime.of(7,20,00)));
@@ -62,6 +73,9 @@ public class SonoController {
     public ResponseEntity<Relatorio> recuperarRelatorio(@PathVariable int userId)
     {
         log.info("buscando relatorio de sono com id: " + userId);
+
+        // Aqui vai ser chamado o serviço que gera o relatório de sono do usuário com ID especificado
+        // adicionaremos ao decorrer das aulas, quando fizermos a camada service
         var historico = new Historico(new ArrayList<Registro>(){
             {
                 add(new Registro(LocalDate.of(2023, 03, 10), LocalTime.of(7,23,23)));
