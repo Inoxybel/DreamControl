@@ -53,6 +53,12 @@ public class SonoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(registro);
     }
 
+    @DeleteMapping("/api/sono/{userId}/deletar")
+    public ResponseEntity<Registro> deletarRegistro (@PathVariable int userId){
+        log.info("apagando usuário utilizando id " + userId);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
     @GetMapping("/api/sono/{userId}/historico")
     public ResponseEntity<Historico> recuperarHistorico(@PathVariable int userId) {
         log.info("buscando historico de sono com id: " + userId);
