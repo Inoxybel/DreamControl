@@ -20,6 +20,9 @@ import br.com.fiap.dreamcontrol.models.Relatorio;
 @RestController
 public class SonoController {
 
+    // Vale ressaltar que os objetos criados aqui, foram criados puramente com o intuito de demonstrar que
+    // os métodos estão funcionando como o esperado
+
     Logger log = LoggerFactory.getLogger(SonoController.class);
 
     @PostMapping("/api/sono/{userId}/objetivo")
