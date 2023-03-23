@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import br.com.fiap.dreamcontrol.Services.ObjetivoService;
+import br.com.fiap.dreamcontrol.Services.RegistroService;
 import br.com.fiap.dreamcontrol.models.Historico;
 import br.com.fiap.dreamcontrol.models.Objetivo;
 import br.com.fiap.dreamcontrol.models.Registro;
@@ -19,49 +21,37 @@ import br.com.fiap.dreamcontrol.models.Relatorio;
 
 @RestController
 public class SonoController {
-
-    // Vale ressaltar que os objetos criados aqui, foram criados puramente com o intuito de demonstrar que
-    // os métodos estão funcionando como o esperado
-
-    Logger log = LoggerFactory.getLogger(SonoController.class);
+	
+	private ObjetivoService objetivoService = new ObjetivoService();
+	private RegistroService registroService = new RegistroService();
 
     @PostMapping("/api/sono/{userId}/objetivo")
     public ResponseEntity<Objetivo> cadastrarObjetivo(@RequestBody Objetivo objetivo, @PathVariable int userId)
     {
-        log.info("cadastrando objetivo: " + objetivo);
-        // Aqui vai ser chamado o serviço que realiza o cadastro do objetivo para o usuário com ID especificado
-        // adicionaremos ao decorrer das aulas, quando fizermos a camada service
-        return ResponseEntity.status(HttpStatus.CREATED).body(objetivo);
+        return objetivoService.cadastrarObjetivo(objetivo, userId);
     }
 
     @GetMapping("/api/sono/{userId}/objetivo")
     public ResponseEntity<Objetivo> recuperarObjetivo(@PathVariable int userId)
     {
-        log.info("buscando objetivo com id: " + userId);
-        Objetivo objetivo = new Objetivo(15, 120);
-        // Aqui vai ser chamado o serviço que busca o objetivo do usuário com ID especificado
-        // adicionaremos ao decorrer das aulas, quando fizermos a camada service
-        return ResponseEntity.status(HttpStatus.OK).body(objetivo);
+        return objetivoService.recuperarObjetivo(userId);
     }
 
     @PostMapping("/api/sono/{userId}/registrar")
     public ResponseEntity<Registro> registrarSono(@RequestBody Registro registro, @PathVariable int userId)
     {
-        log.info("registrando um periodo de sono: " + registro);
-        // Aqui vai ser chamado o serviço que realiza o registro do período de sono do usuário com ID especificado
-        // adicionaremos ao decorrer das aulas, quando fizermos a camada service
-        return ResponseEntity.status(HttpStatus.CREATED).body(registro);
+        return registroService.registrarSono(registro, userId);
     }
 
     @DeleteMapping("/api/sono/{userId}/deletar")
     public ResponseEntity<Registro> deletarRegistro (@PathVariable int userId){
-        log.info("apagando usuário utilizando id " + userId);
+        //log.info("apagando usuário utilizando id " + userId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @GetMapping("/api/sono/{userId}/historico")
     public ResponseEntity<Historico> recuperarHistorico(@PathVariable int userId) {
-        log.info("buscando historico de sono com id: " + userId);
+        //log.info("buscando historico de sono com id: " + userId);
         // Aqui vai ser chamado o serviço que busca o histórico de sono do usuário com ID especificado
         // adicionaremos ao decorrer das aulas, quando fizermos a camada service
         Historico historico = new Historico(new ArrayList<Registro>(){
@@ -78,7 +68,7 @@ public class SonoController {
     @GetMapping("/api/sono/{userId}/relatorio")
     public ResponseEntity<Relatorio> recuperarRelatorio(@PathVariable int userId)
     {
-        log.info("buscando relatorio de sono com id: " + userId);
+        //log.info("buscando relatorio de sono com id: " + userId);
 
         // Aqui vai ser chamado o serviço que gera o relatório de sono do usuário com ID especificado
         // adicionaremos ao decorrer das aulas, quando fizermos a camada service

@@ -2,7 +2,7 @@ package br.com.fiap.dreamcontrol.models;
 
 /*
 Isso deveria ser um objeto de transferência que abstrai somente
-o atributo "nome" da classe "Cadastro" para fins de consulta no banco.
+o atributo "nome" da classe "Usuario" para fins de consulta no banco.
 Porém, entretanto, toda via, aqui por hora será tratado como objeto 
 de domínio até a sequência das demais aulas.
 */
