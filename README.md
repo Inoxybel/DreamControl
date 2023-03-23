@@ -126,7 +126,7 @@ Uma API para o sistema de controlar a saúde do sono.
 ```js
 {
 	"duracao": 15,
-    "objetivo": 120
+        "objetivo": 120
 }
 ```
 
