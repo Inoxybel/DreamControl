@@ -27,7 +27,7 @@ Uma API para o sistema de controlar a saúde do sono.
 
 | Campo | Tipo | Obrigatório | Descrição
 |:-------:|:------:|:-------------:|--
-| nome | string | sim | é o nome do usuário
+| nome | string | sim | é o nome do usuário, deve respeitar o Regex(^[a-zA-Z]{3,}$)
 | email | string | sim | é o email do usuário, deve respeitar o ReGex(^[A-Za-z0-9+_.-]+@(.+)$)
 | senha | string | sim | é a senha do usuário, deve ter no mínimo 8 caracteres
 
@@ -45,8 +45,7 @@ Uma API para o sistema de controlar a saúde do sono.
 | Código | Descrição
 |:-:|-
 | 201 | Usuario cadastrado com sucesso
-| 403 | Erro na requisição
-| 422 | Erro ao processar a requisição
+| 400 | Erro na requisição
 
 ---
 
@@ -68,9 +67,8 @@ Uma API para o sistema de controlar a saúde do sono.
 | Código | Descrição
 |:-:|-
 | 200 | Usuario atualizado com sucesso
-| 202 | Erro na execução do processamento
-| 204 | Usuario não encontrado
-| 403 | Erro na requisição
+| 400 | Erro na execução do processamento
+| 404 | Usuario não encontrado
 
 ---
 
@@ -96,17 +94,16 @@ Uma API para o sistema de controlar a saúde do sono.
 
 | Campo | Tipo | Descrição
 |:-------:|:------:|-------------
-|| string | GUID gerado no usuario que identifica o usuário no sistema
+|Id | string | Id do usuario que identifica o usuário no sistema
 
 ```js
-"1be7d074-a639-43ed-8cb3-d051252bc919"
+1010
 ```
 
 **Códigos de Resposta**
 | Código | Descrição
 |:-:|-
 | 200 | Usuario validado com sucesso
-| 202 | Erro no processamento da requisição
 | 401 | Usuário ou Senha incorreto
 
 ---
