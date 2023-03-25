@@ -5,19 +5,16 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import br.com.fiap.dreamcontrol.Services.ObjetivoService;
-import br.com.fiap.dreamcontrol.Services.RegistroService;
 import br.com.fiap.dreamcontrol.models.Historico;
 import br.com.fiap.dreamcontrol.models.Objetivo;
 import br.com.fiap.dreamcontrol.models.Registro;
 import br.com.fiap.dreamcontrol.models.Relatorio;
+import br.com.fiap.dreamcontrol.services.ObjetivoService;
+import br.com.fiap.dreamcontrol.services.RegistroService;
 
 @RestController
 public class SonoController {
@@ -45,8 +42,7 @@ public class SonoController {
 
     @DeleteMapping("/api/sono/{userId}/deletar")
     public ResponseEntity<Registro> deletarRegistro (@PathVariable int userId){
-        //log.info("apagando usuário utilizando id " + userId);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return registroService.deletarRegistro(userId);
     }
 
     @GetMapping("/api/sono/{userId}/historico")

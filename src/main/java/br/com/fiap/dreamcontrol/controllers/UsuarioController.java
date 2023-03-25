@@ -1,6 +1,11 @@
 package br.com.fiap.dreamcontrol.controllers;
 
 import br.com.fiap.dreamcontrol.models.Usuario;
+import br.com.fiap.dreamcontrol.services.UsuarioService;
+import jakarta.validation.Valid;
+import br.com.fiap.dreamcontrol.dtos.LoginDTO;
+import br.com.fiap.dreamcontrol.dtos.LoginResponseDTO;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -11,19 +16,17 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.fiap.dreamcontrol.models.Login;
-
 @RestController
 public class UsuarioController {
 
     Logger log = LoggerFactory.getLogger(UsuarioController.class);
+    UsuarioService usuarioService = new UsuarioService();
 
     @PostMapping("/api/usuario/cadastrar")
-    public ResponseEntity<Usuario> cadastrar(@RequestBody Usuario usuario)
+    public ResponseEntity<Usuario> cadastrar(@Valid @RequestBody Usuario usuario)
     {
-        log.info("cadastrando usuario: " + usuario);
-        // Aqui vai ser chamado o serviço que realiza o cadastro do usuário
-        // adicionaremos ao decorrer das aulas, quando fizermos a camada service
+        usuarioService.cadastrar(usuario);
+
         return ResponseEntity.status(HttpStatus.CREATED).body(usuario);
     }
 
@@ -32,17 +35,25 @@ public class UsuarioController {
     public ResponseEntity<Usuario> atualizar(@RequestBody Usuario usuario, @PathVariable int id)
     {
         log.info("atualizando cadastro de usuario pelo id: " + id);
-        // Aqui vai ser chamado o serviço que atualiza o cadastro do usuário com o ID especificado
-        // adicionaremos ao decorrer das aulas, quando fizermos a camada service
-        return ResponseEntity.ok(usuario);
+
+        Usuario responseService = usuarioService.atualizar(usuario, id);
+
+        if(responseService == null)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        
+        return ResponseEntity.status(HttpStatus.OK).body(usuario);
     }
 
     @PostMapping("/api/usuario/login")
-    public ResponseEntity<String> logar(@RequestBody Login credenciais)
+    public ResponseEntity<LoginResponseDTO> logar(@Valid @RequestBody LoginDTO credenciais)
     {
-        log.info("validando login: " + credenciais);
-        // Aqui vai ser chamado o serviço que valida as credenciais do usuário
-        // adicionaremos ao decorrer das aulas, quando fizermos a camada service
-        return ResponseEntity.ok("guid: 1be7d074-a639-43ed-8cb3-d051252bc919");
+        log.info("solicitando validação das credenciais informadas");
+
+        LoginResponseDTO responseService = usuarioService.logar(credenciais);
+
+        if(responseService.id() == 0)
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseService);
+
+        return ResponseEntity.status(HttpStatus.OK).body(responseService);
     }
 }

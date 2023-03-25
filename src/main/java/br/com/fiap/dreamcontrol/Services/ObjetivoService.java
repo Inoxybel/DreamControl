@@ -1,4 +1,4 @@
-package br.com.fiap.dreamcontrol.Services;
+package br.com.fiap.dreamcontrol.services;
 
 import java.util.Optional;
 
@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import br.com.fiap.dreamcontrol.models.Objetivo;
-import br.com.fiap.dreamcontrol.repository.ObjetivoRepository;
+import br.com.fiap.dreamcontrol.repositories.ObjetivoRepository;
 
 public class ObjetivoService {
 	
@@ -35,10 +35,10 @@ public class ObjetivoService {
 	        
 	        Optional<Objetivo> objetivo = repository.findById(userId);
 	        
-	        if(objetivo.isPresent() == false)
-	        	return ResponseEntity.status(HttpStatus.NO_CONTENT).body(new Objetivo(0, 0));
+	        if(objetivo.isPresent())
+	        	return ResponseEntity.status(HttpStatus.OK).body(objetivo.get());
 	        
-	        return ResponseEntity.status(HttpStatus.OK).body(objetivo.get());
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(new Objetivo(0, 0));
 	    }
 	
 
