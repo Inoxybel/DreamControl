@@ -1,4 +1,4 @@
-package br.com.fiap.dreamcontrol.repository;
+package br.com.fiap.dreamcontrol.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

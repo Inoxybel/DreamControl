@@ -1,0 +1,328 @@
+[33mcommit 7f8b7126368c094c55013859b5be26c7ca1e8330[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Merge: 64230d3 29190ec
+Author: augustopdro <rm94990@fiap.com.br>
+Date:   Sat Mar 25 18:08:14 2023 -0300
+
+    Merge branch 'release/R01-DreamControl'
+
+[33mcommit 29190ec615e07979cb2f8509decafbd3ce2af858[m[33m ([m[1;31morigin/develop[m[33m)[m
+Author: augustopdro <rm94990@fiap.com.br>
+Date:   Sat Mar 25 17:52:53 2023 -0300
+
+    h2 datasource removed
+
+[33mcommit 64230d36162938cbfd9295a5d9c4465d80ce6e55[m
+Author: Logon Aluno <logonrmlocal@fiap.com.br>
+Date:   Thu Mar 23 20:43:43 2023 -0300
+
+    readme
+
+[33mcommit fde04ecf13ad385a1bad38361cd6ac6e5a2947f3[m
+Merge: a39c26d a55db00
+Author: Logon Aluno <logonrmlocal@fiap.com.br>
+Date:   Thu Mar 23 20:42:08 2023 -0300
+
+    Merge branch 'main' of https://github.com/Inoxybel/DreamControl
+
+[33mcommit a39c26d89dd451b8f995f55787e7c471d9f68dba[m
+Author: Logon Aluno <logonrmlocal@fiap.com.br>
+Date:   Thu Mar 23 20:41:50 2023 -0300
+
+    nova estrutura do projeto 1
+
+[33mcommit a55db009b3f6a9e1f5b544cfe0acf35dece3e861[m
+Author: Thiago Matos <inoxybel@live.com>
+Date:   Thu Mar 23 19:53:00 2023 -0300
+
+    Update README.md
+
+[33mcommit ff72635cc052df90be5e8979b0ce6226565d6afe[m
+Merge: 3cefb5f 57033d5
+Author: Pedro Augusto <101184636+augustopdro@users.noreply.github.com>
+Date:   Mon Mar 20 22:22:13 2023 -0300
+
+    Merge pull request #19 from Inoxybel/develop
+    
+    added datasource url
+
+[33mcommit 57033d522ca89a845fba0336d32fbfb17baf89ee[m
+Author: augustopdro <rm94990@fiap.com.br>
+Date:   Mon Mar 20 22:21:32 2023 -0300
+
+    added datasource url
+
+[33mcommit 3cefb5f8f1fd007fe0f3f2f1028789dfc95d3a70[m
+Merge: e6e93ec 1a71908
+Author: Pedro Augusto <101184636+augustopdro@users.noreply.github.com>
+Date:   Mon Mar 20 22:17:54 2023 -0300
+
+    Merge pull request #17 from Inoxybel/develop
+    
+    added dependencies h2database and spring data
+
+[33mcommit 1a719086a0a69ff763671acebb06137ab9e5535f[m
+Author: augustopdro <rm94990@fiap.com.br>
+Date:   Mon Mar 20 22:17:00 2023 -0300
+
+    added dependencies h2database and spring data
+
+[33mcommit e6e93ece4930881c1bac82d44893a9cc4cbaa547[m
+Author: Pedro Augusto <101184636+augustopdro@users.noreply.github.com>
+Date:   Mon Mar 20 03:30:16 2023 -0300
+
+    Update README.md
+
+[33mcommit 7da7874d3c88a6912bab6b3fc6e5238a90eb58ba[m
+Merge: 979229f 26996e9
+Author: Pedro Augusto <101184636+augustopdro@users.noreply.github.com>
+Date:   Mon Mar 20 03:26:53 2023 -0300
+
+    Merge pull request #14 from Inoxybel/develop
+    
+    added delete endpoint
+
+[33mcommit 26996e979404db664d8e6e4a1d24ff3e59b26b65[m
+Author: augustopdro <rm94990@fiap.com.br>
+Date:   Mon Mar 20 03:26:24 2023 -0300
+
+    added delete endpoint
+
+[33mcommit 979229fd6f031f62101de903b384ea928585e038[m
+Merge: 2e23d66 6750118
+Author: Pedro Augusto <101184636+augustopdro@users.noreply.github.com>
+Date:   Sun Mar 19 22:18:11 2023 -0300
+
+    Merge pull request #13 from Inoxybel/develop
+    
+    Develop
+
+[33mcommit 675011802d64347e3c74e4364892eeee4e0a035f[m
+Author: augustopdro <rm94990@fiap.com.br>
+Date:   Sun Mar 19 22:17:29 2023 -0300
+
+    added comments
+
+[33mcommit 23694e6208979f4806d64c6d55f4d1591f61972a[m
+Author: augustopdro <rm94990@fiap.com.br>
+Date:   Sun Mar 19 22:15:18 2023 -0300
+
+    added comments
+
+[33mcommit 2e23d6685a41672165b724cd3eff5b883e80288f[m
+Merge: 37ca668 76a282e
+Author: Pedro Augusto <101184636+augustopdro@users.noreply.github.com>
+Date:   Sat Mar 18 16:16:16 2023 -0300
+
+    Merge pull request #12 from Inoxybel/develop
+    
+    guid modified
+
+[33mcommit 76a282e07a7f4b19559192899d82a2f9093b1364[m
+Author: augustopdro <rm94990@fiap.com.br>
+Date:   Sat Mar 18 16:15:47 2023 -0300
+
+    guid modified
+
+[33mcommit 37ca6681225b9b0415f0b5059abbadb2543f061b[m
+Merge: 2d98398 c2dddfb
+Author: Pedro Augusto <101184636+augustopdro@users.noreply.github.com>
+Date:   Sat Mar 18 13:58:02 2023 -0300
+
+    Merge pull request #11 from Inoxybel/develop
+    
+    Add ResponseEntity and fix the status code return
+
+[33mcommit c2dddfbf6a20d260c7466599e593fcd520a8a2bb[m
+Author: augustopdro <rm94990@fiap.com.br>
+Date:   Sat Mar 18 13:57:03 2023 -0300
+
+    Add ResponseEntity and fix the status code return
+
+[33mcommit 2d9839800041fefa192fdbd5277cd4be03b155b0[m
+Merge: d26b1d9 006fd64
+Author: Pedro Augusto <101184636+augustopdro@users.noreply.github.com>
+Date:   Sat Mar 18 13:05:37 2023 -0300
+
+    Merge pull request #10 from Inoxybel/develop
+    
+    Fix attribute name
+
+[33mcommit 006fd64a510f50edd9253a83fc9c144b14353fc9[m
+Author: augustopdro <rm94990@fiap.com.br>
+Date:   Sat Mar 18 13:04:58 2023 -0300
+
+    Fix attribute name
+
+[33mcommit d26b1d9d18f1f8579fcb06eaad5f5e7ad70514d1[m
+Merge: 9a83d14 b52a642
+Author: Pedro Augusto <101184636+augustopdro@users.noreply.github.com>
+Date:   Fri Mar 17 19:02:29 2023 -0300
+
+    Merge pull request #9 from Inoxybel/develop
+    
+    Add logger
+
+[33mcommit b52a6429c07eac744e39219cccd2036f0827ced5[m
+Author: augustopdro <rm94990@fiap.com.br>
+Date:   Fri Mar 17 18:35:01 2023 -0300
+
+    Add logger
+
+[33mcommit 9a83d14197bfcd1603f82fda0f7aca3b7778e664[m
+Merge: d09c5ab 90750ad
+Author: Thiago Matos <inoxybel@live.com>
+Date:   Mon Mar 13 19:46:24 2023 -0300
+
+    Merge pull request #8 from Inoxybel/release
+    
+    add requestbody annotation
+
+[33mcommit 90750adb72f21e3d6a6bf1bb028e6594ce06fb42[m
+Author: Thiago Matos <inoxybel@live.com>
+Date:   Mon Mar 13 19:45:46 2023 -0300
+
+    add requestbody annotation
+
+[33mcommit d09c5abffe42e3f702436535cfb5ca3bf9766da5[m
+Merge: 98b4c7d 9bac60d
+Author: Thiago Matos <inoxybel@live.com>
+Date:   Fri Mar 10 12:29:51 2023 -0300
+
+    Merge pull request #7 from Inoxybel/release
+    
+    add models, controllers and adjustments on readme
+
+[33mcommit 9bac60d02a6f9e458f1e55ab73e332d4f3dde136[m
+Author: Thiago Matos <inoxybel@live.com>
+Date:   Fri Mar 10 12:27:39 2023 -0300
+
+    add models, controllers and adjustments on readme
+
+[33mcommit 98b4c7de2e3c68c5c5c209f88176374b1e72a3ba[m
+Merge: 599f95e 94d474a
+Author: Thiago Matos <inoxybel@live.com>
+Date:   Mon Mar 6 20:56:25 2023 -0300
+
+    Merge pull request #6 from Inoxybel/release
+    
+    add spring project
+
+[33mcommit 94d474a254607bdaf183f989e19415847db2087c[m
+Author: Thiago Matos <inoxybel@live.com>
+Date:   Mon Mar 6 20:55:45 2023 -0300
+
+    add spring project
+
+[33mcommit 599f95e496424e81f56f843ccfbbf90ad4a4e881[m
+Merge: 13cb3d8 0a010ea
+Author: Pedro Augusto <101184636+augustopdro@users.noreply.github.com>
+Date:   Sun Mar 5 20:06:32 2023 -0300
+
+    Merge pull request #5 from Inoxybel/release
+    
+    Release
+
+[33mcommit 0a010ea80fd59655daea2a56707e83ce3dc59043[m
+Merge: 61b82d7 13cb3d8
+Author: Thiago Matos <inoxybel@live.com>
+Date:   Sun Mar 5 19:46:06 2023 -0300
+
+    Merge branch 'main' of https://github.com/Inoxybel/DreamControl into release
+
+[33mcommit 61b82d73b9badae236913f190b6a3e842c36db64[m
+Author: Thiago Matos <inoxybel@live.com>
+Date:   Sun Mar 5 19:45:34 2023 -0300
+
+    perfum
+
+[33mcommit 13cb3d87c40613d7b770fa8e350f6f5485745a3c[m
+Merge: 9a452cf 1723dd3
+Author: Pedro Augusto <101184636+augustopdro@users.noreply.github.com>
+Date:   Fri Mar 3 22:20:25 2023 -0300
+
+    Merge pull request #4 from Inoxybel/release
+    
+    fix
+
+[33mcommit 1723dd3ee504163acc1b4441578f23a366d4b6f1[m
+Author: Pedro Augusto <101184636+augustopdro@users.noreply.github.com>
+Date:   Fri Mar 3 22:19:51 2023 -0300
+
+    fix
+
+[33mcommit 9a452cf4d949a60ff0f45ec622389f7b362486fc[m
+Merge: abb3f06 4c926d2
+Author: Pedro Augusto <101184636+augustopdro@users.noreply.github.com>
+Date:   Fri Mar 3 22:18:41 2023 -0300
+
+    Merge pull request #3 from Inoxybel/release
+    
+    new descriptions
+
+[33mcommit 4c926d2b1363c4b820da94347a36b5535310cfa7[m
+Author: Thiago Matos <inoxybel@live.com>
+Date:   Fri Mar 3 21:51:02 2023 -0300
+
+    new descriptions
+
+[33mcommit abb3f060d7241f6ae0809d8cd0552e7ad36156b2[m
+Merge: 3c76dc3 90824ad
+Author: Pedro Augusto <101184636+augustopdro@users.noreply.github.com>
+Date:   Fri Mar 3 20:22:29 2023 -0300
+
+    Merge pull request #2 from Inoxybel/augustopdro-patch-1
+    
+    att3
+
+[33mcommit 90824ad5367e8958dd9f7aaf51801904b08e7298[m
+Author: Pedro Augusto <101184636+augustopdro@users.noreply.github.com>
+Date:   Fri Mar 3 20:21:53 2023 -0300
+
+    att3
+    
+    estilização adicionada
+
+[33mcommit 3c76dc359f1c2b516ad934916e7c18cdb90a3a56[m
+Merge: 4fac062 8ae58b2
+Author: Pedro Augusto <101184636+augustopdro@users.noreply.github.com>
+Date:   Fri Mar 3 20:19:03 2023 -0300
+
+    Merge pull request #1 from Inoxybel/augustopdro-patch-1
+    
+    att
+
+[33mcommit 8ae58b2e64a92e8f372a3e67b6b363abcfa7c412[m
+Author: Pedro Augusto <101184636+augustopdro@users.noreply.github.com>
+Date:   Fri Mar 3 20:13:25 2023 -0300
+
+    att2
+    
+    Sumário de Endpoints adicionado
+
+[33mcommit 0c20212c6e41cfc8c64d6cdab3ffb992e2d17177[m
+Author: Pedro Augusto <101184636+augustopdro@users.noreply.github.com>
+Date:   Fri Mar 3 19:35:27 2023 -0300
+
+    att
+    
+    Tabela adicionada e exemplos de uso
+
+[33mcommit 4fac062ff674c33b23b496b9f4818be10596f560[m
+Author: Thiago Matos <inoxybel@live.com>
+Date:   Tue Feb 28 20:17:10 2023 -0300
+
+    Update README.md
+    
+    update
+
+[33mcommit aa82233ac3104e9e209c9b738d847fde6b2def02[m
+Author: Thiago Matos <inoxybel@live.com>
+Date:   Mon Feb 27 22:06:22 2023 -0300
+
+    readme v0.0.1
+
+[33mcommit 2b9d4785b454e50134a5ab4cceef0a6f51e975be[m
+Author: Thiago Matos <inoxybel@live.com>
+Date:   Mon Feb 13 19:41:34 2023 -0300
+
+    Initial commit
