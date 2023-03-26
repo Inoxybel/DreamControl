@@ -11,11 +11,20 @@ import br.com.fiap.dreamcontrol.models.Objetivo;
 import br.com.fiap.dreamcontrol.models.Registro;
 import br.com.fiap.dreamcontrol.models.Relatorio;
 import br.com.fiap.dreamcontrol.models.Usuario;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class RelatorioService {
-    
+
+    private UsuarioService usuarioService;
+
     Logger log = LoggerFactory.getLogger(RelatorioService.class);
-    UsuarioService usuarioService = new UsuarioService();
+
+    @Autowired
+    public RelatorioService(UsuarioService usuarioService) {
+        this.usuarioService = usuarioService;
+    }
 
     public Relatorio gerar(long userId)
     {

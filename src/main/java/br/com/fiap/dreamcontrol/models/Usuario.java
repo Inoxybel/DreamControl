@@ -41,10 +41,10 @@ public class Usuario {
         if(!setNome(nome))
             throw new IllegalArgumentException("Nome inválido");
 
-        if(!setNome(email))
+        if(!setEmail(email))
             throw new IllegalArgumentException("Email inválido");
 
-        if(!setNome(senha))
+        if(!setSenha(senha))
             throw new IllegalArgumentException("Senha inválida");
         
     }

@@ -2,6 +2,7 @@ package br.com.fiap.dreamcontrol.services;
 
 import java.util.Optional;
 
+import br.com.fiap.dreamcontrol.repositories.RegistroRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,13 +11,19 @@ import org.springframework.http.ResponseEntity;
 
 import br.com.fiap.dreamcontrol.models.Objetivo;
 import br.com.fiap.dreamcontrol.repositories.ObjetivoRepository;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ObjetivoService {
 	
 	Logger log = LoggerFactory.getLogger(ObjetivoService.class);
-	
-	 @Autowired
-	 ObjetivoRepository repository;
+
+	 private ObjetivoRepository repository;
+
+	@Autowired
+	public ObjetivoService(ObjetivoRepository repository) {
+		this.repository = repository;
+	}
 	 
 	 public ResponseEntity<Objetivo> cadastrarObjetivo(Objetivo objetivo, int userId)
 	    {

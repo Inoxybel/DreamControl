@@ -8,13 +8,18 @@ import org.springframework.http.ResponseEntity;
 
 import br.com.fiap.dreamcontrol.models.Registro;
 import br.com.fiap.dreamcontrol.repositories.RegistroRepository;
+import org.springframework.stereotype.Service;
 
+@Service
 public class RegistroService {
-	
+
+	private RegistroRepository repository;
 	Logger log = LoggerFactory.getLogger(RegistroService.class);
 
-	 @Autowired
-	 RegistroRepository repository;
+	@Autowired
+	public RegistroService(RegistroRepository repository) {
+		this.repository = repository;
+	}
 	 
 	 public ResponseEntity<Registro> registrarSono(Registro registro, int userId)
 	{

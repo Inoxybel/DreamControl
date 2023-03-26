@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
+import br.com.fiap.dreamcontrol.services.UsuarioService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,8 +21,14 @@ import br.com.fiap.dreamcontrol.services.RegistroService;
 @RestController
 public class SonoController {
 	
-	private ObjetivoService objetivoService = new ObjetivoService();
-	private RegistroService registroService = new RegistroService();
+	private ObjetivoService objetivoService;
+	private RegistroService registroService;
+
+    @Autowired
+    public SonoController(ObjetivoService objetivoService, RegistroService registroService) {
+        this.objetivoService = objetivoService;
+        this.registroService = registroService;
+    }
 
     @PostMapping("/api/sono/{userId}/objetivo")
     public ResponseEntity<Objetivo> cadastrarObjetivo(@RequestBody Objetivo objetivo, @PathVariable int userId)
