@@ -31,7 +31,7 @@ public class Usuario {
     @Column(nullable = false)
     private String senha;
 
-    @OneToOne
+    @OneToOne(mappedBy = "usuario")
     private Objetivo objetivo;
 
     @OneToMany
@@ -100,6 +100,10 @@ public class Usuario {
     public List<Registro> getRegistros()
     {
         return registro;
+    }
+
+    public void setRegistro(List<Registro> registro) {
+        this.registro = registro;
     }
 
     public Objetivo getObjetivo()

@@ -31,11 +31,10 @@ public class UsuarioService {
     }
 
 	public Usuario atualizar(Usuario usuario, long id)
-    {
-        log.info("atualizando cadastro de usuario pelo id: " + id);
-        
+	{
+		log.info("atualizando cadastro de usuario pelo id: " + id);
 		Optional<Usuario> repositoryResponse = repository.findById(id);
-		
+
 		if(repositoryResponse.isPresent())
 		{
 			Usuario usuarioExistente = repositoryResponse.get();
@@ -62,12 +61,12 @@ public class UsuarioService {
 			if(isUpdatable)
 			{
 				repository.save(usuarioExistente);
-				return usuario;
+				return usuarioExistente; // Retorna o objeto "usuarioExistente" atualizado e salvo no banco de dados
 			}
 		}
 
-        return null;
-    }
+		return null;
+	}
 
 	public Usuario recuperar(long id)
 	{

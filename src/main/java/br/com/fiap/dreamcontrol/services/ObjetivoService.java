@@ -2,7 +2,9 @@ package br.com.fiap.dreamcontrol.services;
 
 import java.util.Optional;
 
+import br.com.fiap.dreamcontrol.models.Usuario;
 import br.com.fiap.dreamcontrol.repositories.RegistroRepository;
+import br.com.fiap.dreamcontrol.repositories.UsuarioRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,37 +19,46 @@ import org.springframework.stereotype.Service;
 public class ObjetivoService {
 
 	Logger log = LoggerFactory.getLogger(ObjetivoService.class);
+	private UsuarioRepository usuarioRepository;
 	private ObjetivoRepository repository;
 
 	@Autowired
-	public ObjetivoService(ObjetivoRepository repository) {
+	public ObjetivoService(ObjetivoRepository repository, UsuarioRepository usuarioRepository) {
 		this.repository = repository;
+		this.usuarioRepository = usuarioRepository;
 	}
 	 
 	 public Boolean cadastrarObjetivo(Objetivo objetivo, long userId)
 	    {
-			boolean successful;
-	        log.info("cadastrando objetivo: " + objetivo);
-
-			if (objetivo == null){
-				successful = false;
+			// Busca o usuário correspondente ao ID informado
+			Optional<Usuario> usuarioOptional = usuarioRepository.findById(userId);
+			if (usuarioOptional.isEmpty()) {
+				return false;
 			}
-	        repository.save(objetivo);
-			successful = true;
+			Usuario usuario = usuarioOptional.get();
 
-	        return successful;
+			// Define o usuário como o dono do objetivo
+			objetivo.setUsuario(usuario);
+
+			// Salva o objetivo na base de dados
+			repository.save(objetivo);
+
+			return true;
 	    }
 	 
 	 public Objetivo recuperarObjetivo(long userId)
 	    {
 	        log.info("buscando objetivo com id: " + userId);
 	        
-	        Optional<Objetivo> objetivoEncontrado = repository.findById(userId);
+	        Optional<Usuario> objetivoEncontrado = usuarioRepository.findById(userId);
 	        
-	        if(!objetivoEncontrado.isPresent())
+	        if(objetivoEncontrado.isEmpty())
 	        	return null;
 
-			Objetivo objetivo = objetivoEncontrado.get();
+			Usuario usuario = objetivoEncontrado.get();
+
+
+			Objetivo objetivo = usuario.getObjetivo();
 	        
 			return objetivo;
 	    }

@@ -32,13 +32,15 @@ public class HistoricoService {
 
         Usuario usuario = usuarioService.recuperar(userId);
 
-        List<Registro> registros = new ArrayList<Registro>();
-
-
-        if(usuario.getEmail().isEmpty()) {
+        if (usuario == null || usuario.getEmail().isEmpty()) {
             return null;
         }
-        registros = usuario.getRegistros();
+
+        List<Registro> registros = usuario.getRegistros();
+        if (registros == null) {
+            registros = new ArrayList<>();
+        }
+
         return new Historico(registros);
     }
     

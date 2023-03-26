@@ -28,6 +28,7 @@ public class Relatorio {
     private int objetivo;
 
     @OneToOne
+    @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
     public Relatorio() {
