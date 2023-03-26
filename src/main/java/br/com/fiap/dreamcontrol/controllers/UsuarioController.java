@@ -11,13 +11,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/api/usuario")
 public class UsuarioController {
 
     private UsuarioService usuarioService;
@@ -28,16 +25,15 @@ public class UsuarioController {
     }
     Logger log = LoggerFactory.getLogger(UsuarioController.class);
 
-    @PostMapping("/api/usuario/cadastrar")
+    @PostMapping("cadastrar")
     public ResponseEntity<Usuario> cadastrar(@Valid @RequestBody Usuario usuario)
     {
         usuarioService.cadastrar(usuario);
-
         return ResponseEntity.status(HttpStatus.CREATED).body(usuario);
     }
 
 
-    @PutMapping("/api/usuario/{id}")
+    @PutMapping("{id}")
     public ResponseEntity<Usuario> atualizar(@RequestBody Usuario usuario, @PathVariable int id)
     {
         log.info("atualizando cadastro de usuario pelo id: " + id);
@@ -50,7 +46,7 @@ public class UsuarioController {
         return ResponseEntity.status(HttpStatus.OK).body(usuario);
     }
 
-    @PostMapping("/api/usuario/login")
+    @PostMapping("login")
     public ResponseEntity<LoginResponseDTO> logar(@Valid @RequestBody LoginDTO credenciais)
     {
         log.info("solicitando validação das credenciais informadas");
