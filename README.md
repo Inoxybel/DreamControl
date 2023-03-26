@@ -188,6 +188,26 @@ Uma API para o sistema de controlar a saúde do sono.
 
 ---
 
+## Deletar Registro
+`DELETE` /api/sono/{userId}/deletar
+
+**Exemplo de corpo do response**
+```js
+{
+	[]
+}
+```
+
+**Códigos de Resposta**
+| Código | Descrição
+|:-:|-
+| 204 | Objeto deletado com sucesso
+| 404 | Objeto não encontrado
+
+---
+
+---
+
 ## Histórico
 `GET` /api/sono/{userId}/historico
 
