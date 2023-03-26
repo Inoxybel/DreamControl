@@ -12,6 +12,9 @@ public class Relatorio {
     private Duration tempoTotal;
     private int objetivo;
 
+    public Relatorio() {
+    }
+
     public Relatorio(LocalDate inicio, LocalDate fim, Duration total, int objetivo) {
         this.inicio = inicio;
         this.fim = fim;

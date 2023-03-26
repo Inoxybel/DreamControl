@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Historico {
-    
+
+    public Historico() {
+    }
+
     private List<Registro> registros = new ArrayList<Registro>();
 
     public Historico(List<Registro> registros) {

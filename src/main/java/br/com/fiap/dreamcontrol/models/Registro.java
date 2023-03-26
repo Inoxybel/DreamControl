@@ -31,6 +31,9 @@ public class Registro {
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
+    public Registro() {
+    }
+
     public Registro(LocalDate data, LocalTime tempo) {
         this.data = data;
         this.tempo = tempo;
