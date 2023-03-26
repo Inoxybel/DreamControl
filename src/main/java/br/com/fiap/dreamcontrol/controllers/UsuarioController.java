@@ -42,8 +42,8 @@ public class UsuarioController {
 
         if(responseService == null)
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        
-        return ResponseEntity.status(HttpStatus.OK).body(usuario);
+
+        return ResponseEntity.status(HttpStatus.OK).body(responseService); // Retorna o objeto "responseService" que foi atualizado e salvo no banco de dados
     }
 
     @PostMapping("login")

@@ -1,15 +1,20 @@
 package br.com.fiap.dreamcontrol.services;
 
-import br.com.fiap.dreamcontrol.models.Objetivo;
+
+import br.com.fiap.dreamcontrol.models.Historico;
+import br.com.fiap.dreamcontrol.models.Usuario;
+import br.com.fiap.dreamcontrol.repositories.HistoricoRepository;
+import br.com.fiap.dreamcontrol.repositories.UsuarioRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+
 
 import br.com.fiap.dreamcontrol.models.Registro;
 import br.com.fiap.dreamcontrol.repositories.RegistroRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.Optional;
 
@@ -17,42 +22,60 @@ import java.util.Optional;
 public class RegistroService {
 
 	private RegistroRepository repository;
+	private UsuarioRepository usuarioRepository;
+	private HistoricoRepository historicoRepository;
+
 	Logger log = LoggerFactory.getLogger(RegistroService.class);
 
 	@Autowired
-	public RegistroService(RegistroRepository repository) {
+	public RegistroService(RegistroRepository repository, UsuarioRepository usuarioRepository, HistoricoRepository historicoRepository) {
 		this.repository = repository;
+		this.usuarioRepository = usuarioRepository;
+		this.historicoRepository = historicoRepository;
 	}
-	 
-	 public Boolean registrarSono(Registro registro, long userId)
-	{
-		boolean successful;
+
+	public Boolean registrarSono(Registro registro, long userId) {
 		log.info("registrando um periodo de sono: " + registro);
 
-		if (registro == null) {
-			successful = false;
+		Optional<Usuario> usuarioOptional = usuarioRepository.findById(userId);
+		if (usuarioOptional.isEmpty()) {
+			return false;
 		}
 
+		Usuario usuario = usuarioOptional.get();
+		registro.setUsuario(usuario);
+		usuario.getRegistros().add(registro);
 		repository.save(registro);
-		successful = true;
 
-		return successful;
+		return true;
 	}
-	 
-	 public Boolean deletarRegistro (long userId)
-	 {
-		 boolean sucessful;
-		 log.info("apagando usuário utilizando id " + userId);
 
-		 Optional<Registro> registroEncontrado = repository.findById(userId);
-		 if (registroEncontrado.isEmpty()) {
-			 sucessful = false;
-		 }
+	@Transactional
+	public Boolean deletarRegistro(long userId, long registroId)
+	{
+		log.info("apagando registro utilizando id " + registroId);
 
-		 repository.deleteById(userId);
-		 sucessful = true;
+		if (!usuarioRepository.existsById(userId)) {
+			return false;
+		}
 
-		 return sucessful;
+		Optional<Registro> registroOptional = repository.findById(registroId);
+		if (registroOptional.isEmpty()) {
+			return false;
+		}
+
+		Registro registro = registroOptional.get();
+		if (registro.getUsuario().getId() != userId) {
+			return false;
+		}
+
+		// Deleta o registro na tabela de Registros
+		repository.delete(registro);
+
+		// Deleta o registro correspondente na tabela de Historico
+		Optional<Historico> historicoOptional = historicoRepository.findByRegistroId(registroId);
+		historicoOptional.ifPresent(historico -> historicoRepository.delete(historico));
+
+		return true;
 	}
-	
 }

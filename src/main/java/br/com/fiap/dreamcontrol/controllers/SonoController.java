@@ -75,11 +75,11 @@ public class SonoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(registro);
     }
 
-    @DeleteMapping("{userId}/deletar")
-    public ResponseEntity<Registro> deletarRegistro (@PathVariable long userId)
+    @DeleteMapping("{userId}/deletar/{registroId}")
+    public ResponseEntity<Registro> deletarRegistro(@PathVariable long userId, @PathVariable long registroId)
     {
         log.info("deletando registro de sono");
-        var successful = registroService.deletarRegistro(userId);
+        var successful = registroService.deletarRegistro(userId, registroId);
 
         if (!successful) {
             return ResponseEntity.notFound().build();

@@ -3,13 +3,8 @@ package br.com.fiap.dreamcontrol.models;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
@@ -29,8 +24,9 @@ public class Registro {
 
     @ManyToOne
     @JoinColumn(name = "usuario_id")
+    @JsonIgnore
     private Usuario usuario;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "historico")
     private Historico historico;
 
@@ -56,6 +52,30 @@ public class Registro {
 
     public void setTempo(LocalTime tempo) {
         this.tempo = tempo;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public Historico getHistorico() {
+        return historico;
+    }
+
+    public void setHistorico(Historico historico) {
+        this.historico = historico;
     }
 
     @Override

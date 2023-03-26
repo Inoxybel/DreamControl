@@ -2,12 +2,8 @@ package br.com.fiap.dreamcontrol.models;
 
 import java.time.LocalDate;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
 
@@ -29,7 +25,9 @@ public class Objetivo {
     @Column(nullable = false)
     private LocalDate dataCriacao;
 
-    @OneToOne(mappedBy="objetivo")
+    @OneToOne
+    @JoinColumn(name = "usuario_id")
+    @JsonIgnore
     private Usuario usuario;
 
     public Objetivo() {
@@ -59,6 +57,14 @@ public class Objetivo {
     
     public LocalDate getDataCriacao() {
     	return dataCriacao;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     @Override
