@@ -37,6 +37,12 @@ public class Usuario {
     @OneToMany
     private List<Registro> registro;
 
+    @OneToOne
+    private Relatorio relatorio;
+
+    @OneToOne
+    private Historico historico;
+
     public Usuario(String nome, String email, String senha) {
         if(!setNome(nome))
             throw new IllegalArgumentException("Nome inválido");
@@ -47,6 +53,9 @@ public class Usuario {
         if(!setSenha(senha))
             throw new IllegalArgumentException("Senha inválida");
         
+    }
+
+    public Usuario() {
     }
 
     public String getNome() {

@@ -32,6 +32,8 @@ public class Objetivo {
     @OneToOne(mappedBy="objetivo")
     private Usuario usuario;
 
+    public Objetivo() {
+    }
 
     public Objetivo(int duracao, int objetivo) {
         this.duracao = duracao;

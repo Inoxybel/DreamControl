@@ -5,9 +5,12 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
-import br.com.fiap.dreamcontrol.services.UsuarioService;
+import br.com.fiap.dreamcontrol.services.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,93 +18,95 @@ import br.com.fiap.dreamcontrol.models.Historico;
 import br.com.fiap.dreamcontrol.models.Objetivo;
 import br.com.fiap.dreamcontrol.models.Registro;
 import br.com.fiap.dreamcontrol.models.Relatorio;
-import br.com.fiap.dreamcontrol.services.ObjetivoService;
-import br.com.fiap.dreamcontrol.services.RegistroService;
 
 @RestController
+@RequestMapping("/api/sono")
 public class SonoController {
 	
 	private ObjetivoService objetivoService;
 	private RegistroService registroService;
+    private RelatorioService relatorioService;
+    private HistoricoService historicoService;
+
+    Logger log = LoggerFactory.getLogger(UsuarioController.class);
+
 
     @Autowired
-    public SonoController(ObjetivoService objetivoService, RegistroService registroService) {
+    public SonoController(ObjetivoService objetivoService, RegistroService registroService, RelatorioService relatorioService, HistoricoService historicoService) {
         this.objetivoService = objetivoService;
         this.registroService = registroService;
+        this.relatorioService = relatorioService;
+        this.historicoService = historicoService;
     }
 
-    @PostMapping("/api/sono/{userId}/objetivo")
-    public ResponseEntity<Objetivo> cadastrarObjetivo(@RequestBody Objetivo objetivo, @PathVariable int userId)
+    @PostMapping("{userId}/objetivo")
+    public ResponseEntity<Objetivo> cadastrarObjetivo(@RequestBody Objetivo objetivo, @PathVariable long userId)
     {
-        return objetivoService.cadastrarObjetivo(objetivo, userId);
+        log.info("cadastrando objetivo");
+        Boolean successful = objetivoService.cadastrarObjetivo(objetivo, userId);
+
+        if (!successful) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.status(HttpStatus.CREATED).body(objetivo);
     }
 
-    @GetMapping("/api/sono/{userId}/objetivo")
-    public ResponseEntity<Objetivo> recuperarObjetivo(@PathVariable int userId)
+    @GetMapping("{userId}/objetivo")
+    public ResponseEntity<Objetivo> recuperarObjetivo(@PathVariable long userId)
     {
-        return objetivoService.recuperarObjetivo(userId);
+        log.info("buscando objetivo");
+        var objetivoEncontrado = objetivoService.recuperarObjetivo(userId);
+
+        if (objetivoEncontrado == null){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(objetivoEncontrado);
     }
 
-    @PostMapping("/api/sono/{userId}/registrar")
-    public ResponseEntity<Registro> registrarSono(@RequestBody Registro registro, @PathVariable int userId)
+    @PostMapping("{userId}/registrar")
+    public ResponseEntity<Registro> registrarSono(@RequestBody Registro registro, @PathVariable long userId)
     {
-        return registroService.registrarSono(registro, userId);
+        log.info("cadastrando registro de sono");
+        var successful = registroService.registrarSono(registro, userId);
+
+        if (!successful) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.status(HttpStatus.CREATED).body(registro);
     }
 
-    @DeleteMapping("/api/sono/{userId}/deletar")
-    public ResponseEntity<Registro> deletarRegistro (@PathVariable int userId){
-        return registroService.deletarRegistro(userId);
-    }
-
-    @GetMapping("/api/sono/{userId}/historico")
-    public ResponseEntity<Historico> recuperarHistorico(@PathVariable int userId) {
-        //log.info("buscando historico de sono com id: " + userId);
-        // Aqui vai ser chamado o serviço que busca o histórico de sono do usuário com ID especificado
-        // adicionaremos ao decorrer das aulas, quando fizermos a camada service
-        Historico historico = new Historico(new ArrayList<Registro>(){
-            {
-                add(new Registro(LocalDate.of(2023, 03, 10), LocalTime.of(7,20,00)));
-                add(new Registro(LocalDate.of(2023, 03, 9), LocalTime.of(8,20,00)));
-                add(new Registro(LocalDate.of(2023, 03, 8), LocalTime.of(7,50,00)));
-            }
-        });
-        return ResponseEntity.status(HttpStatus.OK).body(historico);
-    }
-
-
-    @GetMapping("/api/sono/{userId}/relatorio")
-    public ResponseEntity<Relatorio> recuperarRelatorio(@PathVariable int userId)
+    @DeleteMapping("{userId}/deletar")
+    public ResponseEntity<Registro> deletarRegistro (@PathVariable long userId)
     {
-        //log.info("buscando relatorio de sono com id: " + userId);
+        log.info("deletando registro de sono");
+        var successful = registroService.deletarRegistro(userId);
 
-        // Aqui vai ser chamado o serviço que gera o relatório de sono do usuário com ID especificado
-        // adicionaremos ao decorrer das aulas, quando fizermos a camada service
-        var historico = new Historico(new ArrayList<Registro>(){
-            {
-                add(new Registro(LocalDate.of(2023, 03, 10), LocalTime.of(7,23,23)));
-                add(new Registro(LocalDate.of(2023, 03, 9), LocalTime.of(8,20,00)));
-                add(new Registro(LocalDate.of(2023, 03, 8), LocalTime.of(7,51,10)));
-                add(new Registro(LocalDate.of(2023, 03, 8), LocalTime.of(6,30,00)));
-                add(new Registro(LocalDate.of(2023, 03, 8), LocalTime.of(8,50,20)));
-                add(new Registro(LocalDate.of(2023, 03, 8), LocalTime.of(7,13,00)));
-            }
-        });
+        if (!successful) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.noContent().build();
+    }
 
-        Duration total = Duration.ZERO;
+    @GetMapping("{userId}/historico")
+    public ResponseEntity<Historico> recuperarHistorico(@PathVariable long userId)
+    {
+        log.info("buscando historico");
+        var historicoEncontrado = historicoService.recuperarHistorico(userId);
+        if (historicoEncontrado == null){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(historicoEncontrado);
+    }
 
-        for (Registro r : historico.getRegistros()) {
-            total = total.plusHours(r.getTempo().getHour())
-                    .plusMinutes(r.getTempo().getMinute())
-                    .plusSeconds(r.getTempo().getSecond());
-        };
 
-        Relatorio relatorio = new Relatorio(
-                LocalDate.of(2023,03,01),
-                LocalDate.of(2023,03,15),
-                total,
-                120
-        );
-
-        return ResponseEntity.ok(relatorio);
+    @GetMapping("{userId}/relatorio")
+    public ResponseEntity<Relatorio> recuperarRelatorio(@PathVariable long userId)
+    {
+        log.info("buscando relatorio");
+        var relatorioGerado = relatorioService.gerar(userId);
+        if (relatorioGerado == null){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(relatorioGerado);
     }
 }
