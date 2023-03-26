@@ -1,16 +1,34 @@
 package br.com.fiap.dreamcontrol.models;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+
 import java.time.Duration;
 import java.time.LocalDate;
 
 
 /* Essa classe também deveria ser tratada como um objeto de transferência como uma DTO por exemplo */
+@Entity
 public class Relatorio {
-    
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @NotNull
+    @Column(nullable = false)
     private LocalDate inicio;
+    @NotNull
+    @Column(nullable = false)
     private LocalDate fim;
+    @NotNull
+    @Column(nullable = false)
     private Duration tempoTotal;
+    @NotNull
+    @Column(nullable = false)
     private int objetivo;
+
+    @OneToOne
+    private Usuario usuario;
 
     public Relatorio() {
     }

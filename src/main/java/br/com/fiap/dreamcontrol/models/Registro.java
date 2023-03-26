@@ -30,6 +30,9 @@ public class Registro {
     @ManyToOne
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
+    @ManyToOne
+    @JoinColumn(name = "historico")
+    private Historico historico;
 
     public Registro() {
     }
