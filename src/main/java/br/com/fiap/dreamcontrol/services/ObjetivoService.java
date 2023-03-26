@@ -15,37 +15,41 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ObjetivoService {
-	
-	Logger log = LoggerFactory.getLogger(ObjetivoService.class);
 
-	 private ObjetivoRepository repository;
+	Logger log = LoggerFactory.getLogger(ObjetivoService.class);
+	private ObjetivoRepository repository;
 
 	@Autowired
 	public ObjetivoService(ObjetivoRepository repository) {
 		this.repository = repository;
 	}
 	 
-	 public ResponseEntity<Objetivo> cadastrarObjetivo(Objetivo objetivo, int userId)
+	 public Boolean cadastrarObjetivo(Objetivo objetivo, long userId)
 	    {
+			boolean successful;
 	        log.info("cadastrando objetivo: " + objetivo);
-	        
+
+			if (objetivo == null){
+				successful = false;
+			}
 	        repository.save(objetivo);
-	        
-	        //Add tratamento de erro
-	        
-	        return ResponseEntity.status(HttpStatus.CREATED).body(objetivo);
+			successful = true;
+
+	        return successful;
 	    }
 	 
-	 public ResponseEntity<Objetivo> recuperarObjetivo(long userId)
+	 public Objetivo recuperarObjetivo(long userId)
 	    {
 	        log.info("buscando objetivo com id: " + userId);
 	        
-	        Optional<Objetivo> objetivo = repository.findById(userId);
+	        Optional<Objetivo> objetivoEncontrado = repository.findById(userId);
 	        
-	        if(objetivo.isPresent())
-	        	return ResponseEntity.status(HttpStatus.OK).body(objetivo.get());
+	        if(!objetivoEncontrado.isPresent())
+	        	return null;
+
+			Objetivo objetivo = objetivoEncontrado.get();
 	        
-			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(new Objetivo(0, 0));
+			return objetivo;
 	    }
 	
 

@@ -77,7 +77,7 @@ public class UsuarioService {
 
 		if(repositoryResponse.isPresent())
 			return repositoryResponse.get();
-		
+
 		return new Usuario("", "", "");
 	}
 

@@ -26,7 +26,8 @@ public class HistoricoService {
         this.usuarioService = usuarioService;
         this.registroService = registroService;
     }
-    public ResponseEntity<Historico> recuperarHistorico(int userId) {
+
+    public Historico recuperarHistorico(long userId) {
         log.info("buscando historico de sono com id: " + userId);
 
         Usuario usuario = usuarioService.recuperar(userId);
@@ -34,12 +35,11 @@ public class HistoricoService {
         List<Registro> registros = new ArrayList<Registro>();
 
 
-        if(!usuario.getEmail().isEmpty())
-            registros = usuario.getRegistros();
-        
-        Historico historico = new Historico(registros);
-
-        return ResponseEntity.status(HttpStatus.OK).body(historico);
+        if(usuario.getEmail().isEmpty()) {
+            return null;
+        }
+        registros = usuario.getRegistros();
+        return new Historico(registros);
     }
     
 }

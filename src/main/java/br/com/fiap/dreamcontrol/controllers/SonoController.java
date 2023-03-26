@@ -40,15 +40,19 @@ public class SonoController {
     }
 
     @PostMapping("{userId}/objetivo")
-    public ResponseEntity<Objetivo> cadastrarObjetivo(@RequestBody Objetivo objetivo, @PathVariable int userId)
+    public ResponseEntity<Objetivo> cadastrarObjetivo(@RequestBody Objetivo objetivo, @PathVariable long userId)
     {
         log.info("cadastrando objetivo");
-        objetivoService.cadastrarObjetivo(objetivo, userId);
+        Boolean successful = objetivoService.cadastrarObjetivo(objetivo, userId);
+
+        if (!successful) {
+            return ResponseEntity.badRequest().build();
+        }
         return ResponseEntity.status(HttpStatus.CREATED).body(objetivo);
     }
 
     @GetMapping("{userId}/objetivo")
-    public ResponseEntity<Objetivo> recuperarObjetivo(@PathVariable int userId)
+    public ResponseEntity<Objetivo> recuperarObjetivo(@PathVariable long userId)
     {
         log.info("buscando objetivo");
         var objetivoEncontrado = objetivoService.recuperarObjetivo(userId);
@@ -60,23 +64,31 @@ public class SonoController {
     }
 
     @PostMapping("{userId}/registrar")
-    public ResponseEntity<Registro> registrarSono(@RequestBody Registro registro, @PathVariable int userId)
+    public ResponseEntity<Registro> registrarSono(@RequestBody Registro registro, @PathVariable long userId)
     {
         log.info("cadastrando registro de sono");
-        registroService.registrarSono(registro, userId);
+        var successful = registroService.registrarSono(registro, userId);
+
+        if (!successful) {
+            return ResponseEntity.badRequest().build();
+        }
         return ResponseEntity.status(HttpStatus.CREATED).body(registro);
     }
 
     @DeleteMapping("{userId}/deletar")
-    public ResponseEntity<Registro> deletarRegistro (@PathVariable int userId)
+    public ResponseEntity<Registro> deletarRegistro (@PathVariable long userId)
     {
         log.info("deletando registro de sono");
-        registroService.deletarRegistro(userId);
+        var successful = registroService.deletarRegistro(userId);
+
+        if (!successful) {
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("{userId}/historico")
-    public ResponseEntity<Historico> recuperarHistorico(@PathVariable int userId)
+    public ResponseEntity<Historico> recuperarHistorico(@PathVariable long userId)
     {
         log.info("buscando historico");
         var historicoEncontrado = historicoService.recuperarHistorico(userId);
@@ -88,7 +100,7 @@ public class SonoController {
 
 
     @GetMapping("{userId}/relatorio")
-    public ResponseEntity<Relatorio> recuperarRelatorio(@PathVariable int userId)
+    public ResponseEntity<Relatorio> recuperarRelatorio(@PathVariable long userId)
     {
         log.info("buscando relatorio");
         var relatorioGerado = relatorioService.gerar(userId);
