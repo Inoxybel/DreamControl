@@ -8,6 +8,7 @@ import br.com.fiap.dreamcontrol.dtos.LoginResponseDTO;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,8 +20,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class UsuarioController {
 
+    private UsuarioService usuarioService;
+
+    @Autowired
+    public UsuarioController(UsuarioService usuarioService) {
+        this.usuarioService = usuarioService;
+    }
     Logger log = LoggerFactory.getLogger(UsuarioController.class);
-    UsuarioService usuarioService = new UsuarioService();
 
     @PostMapping("/api/usuario/cadastrar")
     public ResponseEntity<Usuario> cadastrar(@Valid @RequestBody Usuario usuario)

@@ -10,18 +10,23 @@ import br.com.fiap.dreamcontrol.dtos.LoginDTO;
 import br.com.fiap.dreamcontrol.dtos.LoginResponseDTO;
 import br.com.fiap.dreamcontrol.models.Usuario;
 import br.com.fiap.dreamcontrol.repositories.UsuarioRepository;
+import org.springframework.stereotype.Service;
 
+@Service
 public class UsuarioService {
 
+	Logger log = LoggerFactory.getLogger(RegistroService.class);
+	private UsuarioRepository repository;
 	 @Autowired
-	 UsuarioRepository repository;
+ 	public UsuarioService(UsuarioRepository repository) {
+		 this.repository = repository;
+	 }
 
-	 Logger log = LoggerFactory.getLogger(RegistroService.class);
 
 	public void cadastrar(Usuario usuario)
     {
         log.info("cadastrando usuario: " + usuario);
-        
+
 		repository.save(usuario);
     }
 
