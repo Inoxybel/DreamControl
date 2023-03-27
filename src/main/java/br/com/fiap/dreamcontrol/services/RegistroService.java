@@ -51,8 +51,7 @@ public class RegistroService {
 	}
 
 	@Transactional
-	public Boolean deletarRegistro(long userId, long registroId)
-	{
+	public Boolean deletarRegistro(long userId, long registroId) {
 		log.info("apagando registro utilizando id " + registroId);
 
 		if (!usuarioRepository.existsById(userId)) {
@@ -78,4 +77,5 @@ public class RegistroService {
 
 		return true;
 	}
+
 }

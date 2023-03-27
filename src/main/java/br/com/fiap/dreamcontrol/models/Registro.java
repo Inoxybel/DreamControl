@@ -22,7 +22,7 @@ public class Registro {
     @Column(nullable = false)
     private LocalTime tempo;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "usuario_id")
     @JsonIgnore
     private Usuario usuario;
