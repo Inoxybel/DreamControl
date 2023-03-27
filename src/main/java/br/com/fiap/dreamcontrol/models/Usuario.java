@@ -3,13 +3,7 @@ package br.com.fiap.dreamcontrol.models;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
@@ -34,7 +28,8 @@ public class Usuario {
     @OneToOne(mappedBy = "usuario")
     private Objetivo objetivo;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "usuario_id")
     private List<Registro> registro;
 
     @OneToOne
