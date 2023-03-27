@@ -3,13 +3,10 @@ package br.com.fiap.dreamcontrol.services;
 import java.util.Optional;
 
 import br.com.fiap.dreamcontrol.models.Usuario;
-import br.com.fiap.dreamcontrol.repositories.RegistroRepository;
 import br.com.fiap.dreamcontrol.repositories.UsuarioRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
 import br.com.fiap.dreamcontrol.models.Objetivo;
 import br.com.fiap.dreamcontrol.repositories.ObjetivoRepository;
@@ -39,6 +36,7 @@ public class ObjetivoService {
 
 			// Define o usuário como o dono do objetivo
 			objetivo.setUsuario(usuario);
+			objetivo.setDataCriacao();
 
 			// Salva o objetivo na base de dados
 			repository.save(objetivo);

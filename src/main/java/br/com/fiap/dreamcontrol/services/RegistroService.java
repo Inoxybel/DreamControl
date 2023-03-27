@@ -60,20 +60,22 @@ public class RegistroService {
 
 		Optional<Registro> registroOptional = repository.findById(registroId);
 		if (registroOptional.isEmpty()) {
+			log.info("empty");
 			return false;
 		}
 
 		Registro registro = registroOptional.get();
 		if (registro.getUsuario().getId() != userId) {
+			log.info("getid: " + registro.getUsuario().getId());
 			return false;
 		}
-
-		// Deleta o registro na tabela de Registros
-		repository.delete(registro);
 
 		// Deleta o registro correspondente na tabela de Historico
 		Optional<Historico> historicoOptional = historicoRepository.findByRegistroId(registroId);
 		historicoOptional.ifPresent(historico -> historicoRepository.delete(historico));
+		
+		// Deleta o registro na tabela de Registros
+		repository.delete(registro);
 
 		return true;
 	}

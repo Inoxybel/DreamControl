@@ -1,7 +1,6 @@
 package br.com.fiap.dreamcontrol.repositories;
 
 import br.com.fiap.dreamcontrol.models.Historico;
-import br.com.fiap.dreamcontrol.models.Registro;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
