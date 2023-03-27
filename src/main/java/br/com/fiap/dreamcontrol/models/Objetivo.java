@@ -54,6 +54,10 @@ public class Objetivo {
     public void setObjetivo(int objetivo) {
         this.objetivo = objetivo;
     }
+
+    public void setDataCriacao(){
+        dataCriacao = LocalDate.now();
+    }
     
     public LocalDate getDataCriacao() {
     	return dataCriacao;
