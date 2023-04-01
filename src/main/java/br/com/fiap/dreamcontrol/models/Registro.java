@@ -28,6 +28,7 @@ public class Registro {
     private Usuario usuario;
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "historico")
+    @JsonIgnore
     private Historico historico;
 
     public Registro() {
