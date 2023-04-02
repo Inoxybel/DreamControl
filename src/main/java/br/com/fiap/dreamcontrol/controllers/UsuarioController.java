@@ -35,7 +35,7 @@ public class UsuarioController {
 
 
     @PutMapping("{id}")
-    public ResponseEntity<UsuarioResponseDTO> atualizar(@RequestBody Usuario usuario, @PathVariable long id)
+    public ResponseEntity<UsuarioResponseDTO> atualizar(@Valid @RequestBody Usuario usuario, @PathVariable long id)
     {
         log.info("atualizando cadastro de usuario pelo id: " + id);
 

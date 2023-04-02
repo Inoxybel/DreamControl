@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class Usuario {
@@ -14,14 +16,17 @@ public class Usuario {
     private Long id;
 
     @NotNull
+    @NotBlank
     @Column(nullable = false)
     private String nome;
 
     @NotNull
+    @NotBlank
     @Column(nullable = false, unique = true)
     private String email;
 
     @NotNull
+    @NotBlank @Size(min = 8, max = 20)
     @Column(nullable = false)
     private String senha;
 

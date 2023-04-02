@@ -3,6 +3,7 @@ package br.com.fiap.dreamcontrol.controllers;
 
 import br.com.fiap.dreamcontrol.dtos.HistoricoDTO;
 import br.com.fiap.dreamcontrol.services.*;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ public class SonoController {
     }
 
     @PostMapping("{userId}/objetivo")
-    public ResponseEntity<Objetivo> cadastrarObjetivo(@RequestBody Objetivo objetivo, @PathVariable long userId)
+    public ResponseEntity<Objetivo> cadastrarObjetivo(@Valid @RequestBody Objetivo objetivo, @PathVariable long userId)
     {
         log.info("cadastrando objetivo");
         Boolean successful = objetivoService.cadastrarObjetivo(objetivo, userId);
