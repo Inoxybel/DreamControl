@@ -58,7 +58,6 @@ public class Objetivo {
     public void setDataCriacao(){
         dataCriacao = LocalDate.now();
     }
-
     public LocalDate getDataCriacao() {
     	return dataCriacao;
     }
