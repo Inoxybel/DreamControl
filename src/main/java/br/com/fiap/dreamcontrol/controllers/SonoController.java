@@ -1,5 +1,7 @@
 package br.com.fiap.dreamcontrol.controllers;
 
+
+import br.com.fiap.dreamcontrol.dtos.HistoricoDTO;
 import br.com.fiap.dreamcontrol.services.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import br.com.fiap.dreamcontrol.models.Historico;
 import br.com.fiap.dreamcontrol.models.Objetivo;
 import br.com.fiap.dreamcontrol.models.Registro;
 import br.com.fiap.dreamcontrol.models.Relatorio;
@@ -82,7 +83,7 @@ public class SonoController {
     }
 
     @GetMapping("{userId}/historico")
-    public ResponseEntity<Historico> recuperarHistorico(@PathVariable long userId)
+    public ResponseEntity<HistoricoDTO> recuperarHistorico(@PathVariable long userId)
     {
         log.info("buscando historico");
         var historicoEncontrado = historicoService.recuperarHistorico(userId);

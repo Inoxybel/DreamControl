@@ -2,6 +2,7 @@ package br.com.fiap.dreamcontrol.services;
 
 import java.util.Optional;
 
+import br.com.fiap.dreamcontrol.dtos.UsuarioResponseDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ public class UsuarioService {
 		repository.save(usuario);
     }
 
-	public Usuario atualizar(Usuario usuario, long id)
+	public UsuarioResponseDTO atualizar(Usuario usuario, long id)
 	{
 		log.info("atualizando cadastro de usuario pelo id: " + id);
 		Optional<Usuario> repositoryResponse = repository.findById(id);
@@ -61,7 +62,13 @@ public class UsuarioService {
 			if(isUpdatable)
 			{
 				repository.save(usuarioExistente);
-				return usuarioExistente; // Retorna o objeto "usuarioExistente" atualizado e salvo no banco de dados
+				return new UsuarioResponseDTO(
+						usuarioExistente.getId(),
+						usuarioExistente.getNome(),
+						usuarioExistente.getEmail(),
+						usuarioExistente.getSenha()
+				);
+				// Retorna o objeto "usuarioExistente" atualizado e salvo no banco de dados
 			}
 		}
 

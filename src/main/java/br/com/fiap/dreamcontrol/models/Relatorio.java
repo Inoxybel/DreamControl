@@ -21,7 +21,7 @@ public class Relatorio {
     private LocalDate fim;
     @NotNull
     @Column(nullable = false)
-    private Duration tempoTotal;
+    private String tempoTotal;
     @NotNull
     @Column(nullable = false)
     private int objetivo;
@@ -33,10 +33,10 @@ public class Relatorio {
     public Relatorio() {
     }
 
-    public Relatorio(LocalDate inicio, LocalDate fim, Duration total, int objetivo) {
+    public Relatorio(LocalDate inicio, LocalDate fim, String tempoTotal, int objetivo) {
         this.inicio = inicio;
         this.fim = fim;
-        this.tempoTotal = total;
+        this.tempoTotal = tempoTotal;
         this.objetivo = objetivo;
     }
 
@@ -56,11 +56,11 @@ public class Relatorio {
         this.fim = fim;
     }
 
-    public Duration getTempoTotal() {
+    public String getTempoTotal() {
         return tempoTotal;
     }
 
-    public void setTempoTotal(Duration tempoTotal) {
+    public void setTempoTotal(String tempoTotal) {
         this.tempoTotal = tempoTotal;
     }
 

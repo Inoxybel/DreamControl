@@ -36,7 +36,6 @@ public class Objetivo {
     public Objetivo(int duracao, int objetivo) {
         this.duracao = duracao;
         this.objetivo = objetivo;
-        dataCriacao = LocalDate.now();
     }
 
     public int getDuracao() {
@@ -55,10 +54,10 @@ public class Objetivo {
         this.objetivo = objetivo;
     }
 
+
     public void setDataCriacao(){
         dataCriacao = LocalDate.now();
     }
-    
     public LocalDate getDataCriacao() {
     	return dataCriacao;
     }
