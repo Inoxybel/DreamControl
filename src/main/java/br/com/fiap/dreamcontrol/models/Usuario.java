@@ -18,7 +18,7 @@ public class Usuario {
     private String nome;
 
     @NotNull
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String email;
 
     @NotNull
@@ -35,8 +35,7 @@ public class Usuario {
     @OneToOne
     private Relatorio relatorio;
 
-    @OneToOne
-    private Historico historico;
+
 
     public Usuario(String nome, String email, String senha) {
         if(!setNome(nome))
@@ -99,6 +98,10 @@ public class Usuario {
 
     public void setRegistro(List<Registro> registro) {
         this.registro = registro;
+    }
+
+    public void setObjetivo(Objetivo objetivo) {
+        this.objetivo = objetivo;
     }
 
     public Objetivo getObjetivo()

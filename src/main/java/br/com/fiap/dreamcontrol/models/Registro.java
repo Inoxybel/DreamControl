@@ -2,6 +2,8 @@ package br.com.fiap.dreamcontrol.models;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -22,14 +24,12 @@ public class Registro {
     @Column(nullable = false)
     private LocalTime tempo;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuario_id")
     @JsonIgnore
     private Usuario usuario;
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "historico")
-    @JsonIgnore
-    private Historico historico;
+
+
 
     public Registro() {
     }
@@ -71,13 +71,7 @@ public class Registro {
         this.usuario = usuario;
     }
 
-    public Historico getHistorico() {
-        return historico;
-    }
 
-    public void setHistorico(Historico historico) {
-        this.historico = historico;
-    }
 
     @Override
     public String toString() {

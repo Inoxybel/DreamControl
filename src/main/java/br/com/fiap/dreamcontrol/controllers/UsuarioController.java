@@ -1,5 +1,6 @@
 package br.com.fiap.dreamcontrol.controllers;
 
+import br.com.fiap.dreamcontrol.dtos.UsuarioResponseDTO;
 import br.com.fiap.dreamcontrol.models.Usuario;
 import br.com.fiap.dreamcontrol.services.UsuarioService;
 import jakarta.validation.Valid;
@@ -34,11 +35,11 @@ public class UsuarioController {
 
 
     @PutMapping("{id}")
-    public ResponseEntity<Usuario> atualizar(@RequestBody Usuario usuario, @PathVariable long id)
+    public ResponseEntity<UsuarioResponseDTO> atualizar(@RequestBody Usuario usuario, @PathVariable long id)
     {
         log.info("atualizando cadastro de usuario pelo id: " + id);
 
-        Usuario responseService = usuarioService.atualizar(usuario, id);
+        UsuarioResponseDTO responseService = usuarioService.atualizar(usuario, id);
 
         if(responseService == null)
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();

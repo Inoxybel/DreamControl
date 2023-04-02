@@ -1,9 +1,7 @@
 package br.com.fiap.dreamcontrol.services;
 
 
-import br.com.fiap.dreamcontrol.models.Historico;
 import br.com.fiap.dreamcontrol.models.Usuario;
-import br.com.fiap.dreamcontrol.repositories.HistoricoRepository;
 import br.com.fiap.dreamcontrol.repositories.UsuarioRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,15 +21,13 @@ public class RegistroService {
 
 	private RegistroRepository repository;
 	private UsuarioRepository usuarioRepository;
-	private HistoricoRepository historicoRepository;
 
 	Logger log = LoggerFactory.getLogger(RegistroService.class);
 
 	@Autowired
-	public RegistroService(RegistroRepository repository, UsuarioRepository usuarioRepository, HistoricoRepository historicoRepository) {
+	public RegistroService(RegistroRepository repository, UsuarioRepository usuarioRepository) {
 		this.repository = repository;
 		this.usuarioRepository = usuarioRepository;
-		this.historicoRepository = historicoRepository;
 	}
 
 	public Boolean registrarSono(Registro registro, long userId) {
@@ -43,37 +39,44 @@ public class RegistroService {
 		}
 
 		Usuario usuario = usuarioOptional.get();
+		for (Registro reg : usuario.getRegistros()) {
+			if (reg.getData().equals(registro.getData())) {
+				reg.getId();
+				reg.setData(registro.getData());
+				reg.setTempo(registro.getTempo());
+				repository.save(reg);
+				return true;
+			}
+		}
 		registro.setUsuario(usuario);
 		usuario.getRegistros().add(registro);
 		repository.save(registro);
-
 		return true;
 	}
 
+
+
 	@Transactional
 	public Boolean deletarRegistro(long userId, long registroId) {
-		log.info("apagando registro utilizando id " + registroId);
-
-		if (!usuarioRepository.existsById(userId)) {
+		Optional<Usuario> usuarioOptional = usuarioRepository.findById(userId);
+		if (usuarioOptional.isEmpty()) {
 			return false;
 		}
+		Usuario usuario = usuarioOptional.get();
 
 		Optional<Registro> registroOptional = repository.findById(registroId);
 		if (registroOptional.isEmpty()) {
 			return false;
 		}
-
 		Registro registro = registroOptional.get();
-		if (registro.getUsuario().getId() != userId) {
+
+		if (!registro.getUsuario().equals(usuario)) {
 			return false;
 		}
 
-		// Deleta o registro na tabela de Registros
+		usuario.getRegistros().remove(registro);
+		usuarioRepository.save(usuario);
 		repository.delete(registro);
-
-		// Deleta o registro correspondente na tabela de Historico
-		Optional<Historico> historicoOptional = historicoRepository.findByRegistroId(registroId);
-		historicoOptional.ifPresent(historico -> historicoRepository.delete(historico));
 
 		return true;
 	}
