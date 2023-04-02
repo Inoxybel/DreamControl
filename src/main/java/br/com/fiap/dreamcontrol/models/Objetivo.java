@@ -4,6 +4,8 @@ import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
 
@@ -15,10 +17,12 @@ public class Objetivo {
     private Long id;
 
     @NotNull
+    @Min(0)
     @Column(nullable = false)
     private int duracao;
 
     @NotNull
+    @Min(0)
     @Column(nullable = false)
     private int objetivo;
     
