@@ -23,7 +23,7 @@ public class Objetivo {
     private int objetivo;
     
     @Column(nullable = false)
-    private LocalDate dataCriacao = LocalDate.now();;
+    private LocalDate dataCriacao;
 
     @OneToOne
     @JoinColumn(name = "usuario_id")
@@ -53,7 +53,12 @@ public class Objetivo {
     public void setObjetivo(int objetivo) {
         this.objetivo = objetivo;
     }
-    
+
+
+    public void setDataCriacao(){
+        dataCriacao = LocalDate.now();
+    }
+
     public LocalDate getDataCriacao() {
     	return dataCriacao;
     }

@@ -60,6 +60,7 @@ public class RegistroService {
 	public Boolean deletarRegistro(long userId, long registroId) {
 		Optional<Usuario> usuarioOptional = usuarioRepository.findById(userId);
 		if (usuarioOptional.isEmpty()) {
+			log.info("empty");
 			return false;
 		}
 		Usuario usuario = usuarioOptional.get();
@@ -71,6 +72,7 @@ public class RegistroService {
 		Registro registro = registroOptional.get();
 
 		if (!registro.getUsuario().equals(usuario)) {
+			log.info("getid: " + registro.getUsuario().getId());
 			return false;
 		}
 

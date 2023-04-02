@@ -7,7 +7,6 @@ import java.time.Duration;
 import java.time.LocalDate;
 
 
-/* Essa classe também deveria ser tratada como um objeto de transferência como uma DTO por exemplo */
 @Entity
 public class Relatorio {
 

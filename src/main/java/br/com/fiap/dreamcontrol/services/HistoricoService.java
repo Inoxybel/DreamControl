@@ -17,12 +17,10 @@ public class HistoricoService {
 
     Logger log = LoggerFactory.getLogger(HistoricoService.class);
     private UsuarioService usuarioService;
-    private RegistroService registroService;
 
     @Autowired
-    public HistoricoService(UsuarioService usuarioService, RegistroService registroService) {
+    public HistoricoService(UsuarioService usuarioService) {
         this.usuarioService = usuarioService;
-        this.registroService = registroService;
     }
 
     public HistoricoDTO recuperarHistorico(long userId) {
