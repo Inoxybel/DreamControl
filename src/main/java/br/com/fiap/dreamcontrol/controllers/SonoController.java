@@ -2,6 +2,7 @@ package br.com.fiap.dreamcontrol.controllers;
 
 
 import br.com.fiap.dreamcontrol.dtos.HistoricoDTO;
+import br.com.fiap.dreamcontrol.exceptions.RestNotFoundException;
 import br.com.fiap.dreamcontrol.services.*;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import br.com.fiap.dreamcontrol.models.Objetivo;
 import br.com.fiap.dreamcontrol.models.Registro;
 import br.com.fiap.dreamcontrol.models.Relatorio;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/api/sono")
@@ -54,13 +56,13 @@ public class SonoController {
         var objetivoEncontrado = objetivoService.recuperarObjetivo(userId);
 
         if (objetivoEncontrado == null){
-            return ResponseEntity.notFound().build();
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Objetivo não encontrado");
         }
         return ResponseEntity.ok(objetivoEncontrado);
     }
 
     @PostMapping("{userId}/registrar")
-    public ResponseEntity<Registro> registrarSono(@RequestBody Registro registro, @PathVariable long userId)
+    public ResponseEntity<Registro> registrarSono(@Valid @RequestBody Registro registro, @PathVariable long userId)
     {
         log.info("cadastrando registro de sono");
         var successful = registroService.registrarSono(registro, userId);
@@ -78,7 +80,7 @@ public class SonoController {
         var successful = registroService.deletarRegistro(userId, registroId);
 
         if (!successful) {
-            return ResponseEntity.notFound().build();
+            throw new RestNotFoundException("despesa não encontrada");
         }
         return ResponseEntity.noContent().build();
     }
@@ -89,7 +91,7 @@ public class SonoController {
         log.info("buscando historico");
         var historicoEncontrado = historicoService.recuperarHistorico(userId);
         if (historicoEncontrado == null){
-            return ResponseEntity.notFound().build();
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Historico não encontrado");
         }
         return ResponseEntity.ok(historicoEncontrado);
     }
@@ -101,7 +103,7 @@ public class SonoController {
         log.info("buscando relatorio");
         var relatorioGerado = relatorioService.gerar(userId);
         if (relatorioGerado == null){
-            return ResponseEntity.notFound().build();
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Relatorio não encontrado");
         }
         return ResponseEntity.ok(relatorioGerado);
     }
