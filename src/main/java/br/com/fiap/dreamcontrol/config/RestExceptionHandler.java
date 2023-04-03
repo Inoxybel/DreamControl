@@ -2,6 +2,7 @@ package br.com.fiap.dreamcontrol.config;
 
 import br.com.fiap.dreamcontrol.errors.RestConstraintViolationError;
 import br.com.fiap.dreamcontrol.errors.RestValidationError;
+import br.com.fiap.dreamcontrol.exceptions.RestUnauthorizedException;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.UnexpectedTypeException;
 import org.slf4j.Logger;
@@ -36,6 +37,12 @@ public class RestExceptionHandler {
         List<RestConstraintViolationError> errors = new ArrayList<>();
         e.getConstraintViolations().forEach(constraintViolation -> errors.add(new RestConstraintViolationError(400, constraintViolation.getInvalidValue(),constraintViolation.getMessage())));
         return ResponseEntity.badRequest().body(errors);
+    }
+
+    @ExceptionHandler(RestUnauthorizedException.class)
+    public ResponseEntity<Object> handleUnauthorizedException(RestUnauthorizedException e) {
+        log.error("Usuário ou senha inválido", e);
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(NoSuchElementException.class)

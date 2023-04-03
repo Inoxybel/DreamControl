@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @Service
 public class RegistroService {
@@ -61,27 +60,19 @@ public class RegistroService {
 	}
 
 	@Transactional
-	public Boolean deletarRegistro(long userId, long registroId) {
+	public void deletarRegistro(long userId, long registroId) {
 		var usuario = recuperarUsuario(userId);
-
-		if(usuario == null)
-			return false;
 			
 		var registro = recuperarRegistro(registroId);
-
-		if(registro == null)
-			return false;
 		
 		if (!registro.getUsuario().equals(usuario)) {
 			log.info("getid: " + registro.getUsuario().getId());
-			return false;
+			throw new RestNotFoundException("Registro informado não pertence ao Usuário informado");
 		}
 
 		usuario.getRegistros().remove(registro);
 		usuarioRepository.save(usuario);
 		repository.delete(registro);
-
-		return true;
 	}
 
 	private Registro salvarRegistro(Registro registro){

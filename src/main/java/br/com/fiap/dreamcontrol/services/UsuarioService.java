@@ -46,12 +46,12 @@ public class UsuarioService {
 		String novoEmail = usuario.getEmail();
 		String novaSenha = usuario.getSenha();
 
-		if(repositoryResponse.getNome() != novoNome && !novoNome.isEmpty())
+		if(repositoryResponse.getNome() != novoNome)
 		{
 			isUpdatable = repositoryResponse.setNome(novoNome);
 		}
 
-		if(repositoryResponse.getEmail() != novoEmail && !novoEmail.isEmpty())
+		if(repositoryResponse.getEmail() != novoEmail)
 		{
 			isUpdatable = repositoryResponse.setEmail(novoEmail);
 		}

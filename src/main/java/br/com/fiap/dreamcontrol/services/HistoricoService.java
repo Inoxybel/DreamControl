@@ -24,15 +24,12 @@ public class HistoricoService {
     }
 
     public HistoricoDTO recuperarHistorico(long userId) {
-        log.info("buscando historico de sono com id: " + userId);
+        log.info("Buscando historico de sono do usuário: " + userId);
 
         Usuario usuario = usuarioService.recuperar(userId);
 
-        if (usuario == null || usuario.getEmail().isEmpty()) {
-            return null;
-        }
-
         List<Registro> registros = usuario.getRegistros();
+
         if (registros == null) {
             registros = new ArrayList<>();
         }

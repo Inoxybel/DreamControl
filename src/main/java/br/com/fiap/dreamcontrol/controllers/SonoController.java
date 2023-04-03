@@ -1,6 +1,5 @@
 package br.com.fiap.dreamcontrol.controllers;
 
-
 import br.com.fiap.dreamcontrol.dtos.HistoricoDTO;
 import br.com.fiap.dreamcontrol.exceptions.RestNotFoundException;
 import br.com.fiap.dreamcontrol.services.*;
@@ -25,9 +24,7 @@ public class SonoController {
 	private RegistroService registroService;
     private RelatorioService relatorioService;
     private HistoricoService historicoService;
-
-    Logger log = LoggerFactory.getLogger(UsuarioController.class);
-
+    private Logger log = LoggerFactory.getLogger(UsuarioController.class);
 
     @Autowired
     public SonoController(ObjetivoService objetivoService, RegistroService registroService, RelatorioService relatorioService, HistoricoService historicoService) {
@@ -60,9 +57,6 @@ public class SonoController {
     {
         log.info("Cadastrando registro de sono");
         var retornoService = registroService.registrarSono(registro, userId);
-
-        if (retornoService == null)
-            return ResponseEntity.badRequest().build();
         
         if(retornoService.containsKey(true))
             return ResponseEntity.status(HttpStatus.OK).body(retornoService.get(true));
@@ -75,11 +69,7 @@ public class SonoController {
     {
         log.info("Deletando registro de sono");
         
-        var successful = registroService.deletarRegistro(userId, registroId);
-
-        if (!successful) {
-            throw new RestNotFoundException("despesa não encontrada");
-        }
+        registroService.deletarRegistro(userId, registroId);
 
         return ResponseEntity.noContent().build();
     }
@@ -90,10 +80,6 @@ public class SonoController {
         log.info("Buscando historico");
 
         var historicoEncontrado = historicoService.recuperarHistorico(userId);
-
-        if (historicoEncontrado == null){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Historico não encontrado");
-        }
 
         return ResponseEntity.ok(historicoEncontrado);
     }

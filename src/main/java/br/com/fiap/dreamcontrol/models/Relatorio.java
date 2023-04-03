@@ -13,15 +13,19 @@ public class Relatorio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @NotNull
     @Column(nullable = false)
     private LocalDate inicio;
+
     @NotNull
     @Column(nullable = false)
     private LocalDate fim;
+
     @NotNull
     @Column(nullable = false)
     private String tempoTotal;
+    
     @NotNull
     @Column(nullable = false)
     private int objetivo;
@@ -30,8 +34,7 @@ public class Relatorio {
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
-    public Relatorio() {
-    }
+    public Relatorio() {}
 
     public Relatorio(LocalDate inicio, LocalDate fim, String tempoTotal, int objetivo) {
         this.inicio = inicio;

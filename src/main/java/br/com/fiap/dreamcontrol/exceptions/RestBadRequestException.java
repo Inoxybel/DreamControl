@@ -3,10 +3,10 @@ package br.com.fiap.dreamcontrol.exceptions;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(code = HttpStatus.UNAUTHORIZED)
-public class RestUnauthorizedException extends RuntimeException {
+@ResponseStatus(code = HttpStatus.BAD_REQUEST)
+public class RestBadRequestException extends RuntimeException {
 
-    public RestUnauthorizedException(String message) {
+    public RestBadRequestException(String message) {
         super(message);
     }
 

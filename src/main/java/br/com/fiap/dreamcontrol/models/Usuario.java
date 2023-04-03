@@ -52,8 +52,7 @@ public class Usuario {
             throw new IllegalArgumentException("Senha inválida");
     }
 
-    public Usuario() {
-    }
+    public Usuario() {}
 
     public String getNome() {
         return nome;
@@ -65,6 +64,7 @@ public class Usuario {
             nome = novoNome;
             return true;
         }
+
         return false;
     }
 
@@ -78,6 +78,7 @@ public class Usuario {
             email = novoEmail;
             return true;
         }
+
         return false;
     }
 
@@ -91,6 +92,7 @@ public class Usuario {
             senha = novaSenha;
             return true;
         }
+
         return false;
     }
 
@@ -127,8 +129,10 @@ public class Usuario {
 
     private boolean validarSenha(String senha)
     {
-        if(senha.length() >= 8)
+        if(senha.length() >= 8){
             return true;
+        }
+            
         return false;
     }
 

@@ -26,10 +26,7 @@ public class Registro {
     @JsonIgnore
     private Usuario usuario;
 
-
-
-    public Registro() {
-    }
+    public Registro() {}
 
     public Registro(LocalDate data, LocalTime tempo) {
         this.data = data;
@@ -67,8 +64,6 @@ public class Registro {
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
-
-
 
     @Override
     public String toString() {
