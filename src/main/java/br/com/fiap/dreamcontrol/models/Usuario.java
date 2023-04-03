@@ -16,7 +16,7 @@ public class Usuario {
     private Long id;
 
     @NotNull
-    @Pattern(regexp = "^[a-zA-Z]{3,}$", message = "Nome deve conter no mínimo 3 caracteres e nenhum pode ser numérico")
+    @Pattern(regexp = "^(?=.*[a-zA-Z])[a-zA-Z\s]{3,}$", message = "Nome deve conter no mínimo 3 caracteres e nenhum pode ser numérico")
     @Column(nullable = false)
     private String nome;
 
@@ -121,7 +121,7 @@ public class Usuario {
 
     private boolean validarNome(String nome)
     {
-        String regex = "^[a-zA-Z]{3,}$";
+        String regex = "^(?=.*[a-zA-Z])[a-zA-Z\s]{3,}$";
         java.util.regex.Pattern padrao = java.util.regex.Pattern.compile(regex);
 
         return padrao.matcher(nome).matches();
