@@ -40,31 +40,25 @@ public class SonoController {
     @PostMapping("{userId}/objetivo")
     public ResponseEntity<Objetivo> cadastrarObjetivo(@Valid @RequestBody Objetivo objetivo, @PathVariable long userId)
     {
-        log.info("cadastrando objetivo");
-        Boolean successful = objetivoService.cadastrarObjetivo(objetivo, userId);
+        log.info("Cadastrando objetivo");
+        Objetivo responseService = objetivoService.cadastrarObjetivo(objetivo, userId);
 
-        if (!successful) {
-            return ResponseEntity.badRequest().build();
-        }
-        return ResponseEntity.status(HttpStatus.CREATED).body(objetivo);
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseService);
     }
 
     @GetMapping("{userId}/objetivo")
     public ResponseEntity<Objetivo> recuperarObjetivo(@PathVariable long userId)
     {
-        log.info("buscando objetivo");
-        var objetivoEncontrado = objetivoService.recuperarObjetivo(userId);
+        log.info("Buscando objetivo");
+        var objetivo = objetivoService.recuperarObjetivo(userId);
 
-        if (objetivoEncontrado == null){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Objetivo não encontrado");
-        }
-        return ResponseEntity.ok(objetivoEncontrado);
+        return ResponseEntity.ok(objetivo);
     }
 
     @PostMapping("{userId}/registrar")
     public ResponseEntity<Registro> registrarSono(@Valid @RequestBody Registro registro, @PathVariable long userId)
     {
-        log.info("cadastrando registro de sono");
+        log.info("Cadastrando registro de sono");
         var retornoService = registroService.registrarSono(registro, userId);
 
         if (retornoService == null)
@@ -79,23 +73,28 @@ public class SonoController {
     @DeleteMapping("{userId}/deletar/{registroId}")
     public ResponseEntity<Registro> deletarRegistro(@PathVariable long userId, @PathVariable long registroId)
     {
-        log.info("deletando registro de sono");
+        log.info("Deletando registro de sono");
+        
         var successful = registroService.deletarRegistro(userId, registroId);
 
         if (!successful) {
             throw new RestNotFoundException("despesa não encontrada");
         }
+
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("{userId}/historico")
     public ResponseEntity<HistoricoDTO> recuperarHistorico(@PathVariable long userId)
     {
-        log.info("buscando historico");
+        log.info("Buscando historico");
+
         var historicoEncontrado = historicoService.recuperarHistorico(userId);
+
         if (historicoEncontrado == null){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Historico não encontrado");
         }
+
         return ResponseEntity.ok(historicoEncontrado);
     }
 
@@ -103,11 +102,14 @@ public class SonoController {
     @GetMapping("{userId}/relatorio")
     public ResponseEntity<Relatorio> recuperarRelatorio(@PathVariable long userId)
     {
-        log.info("buscando relatorio");
+        log.info("Buscando relatorio");
+
         var relatorioGerado = relatorioService.gerar(userId);
+
         if (relatorioGerado == null){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Relatorio não encontrado");
         }
+
         return ResponseEntity.ok(relatorioGerado);
     }
 }

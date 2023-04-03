@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-
+import br.com.fiap.dreamcontrol.exceptions.RestNotFoundException;
 import br.com.fiap.dreamcontrol.models.Registro;
 import br.com.fiap.dreamcontrol.repositories.RegistroRepository;
 import org.springframework.stereotype.Service;
@@ -36,9 +36,6 @@ public class RegistroService {
 		var retornoMetodo = new HashMap<Boolean, Registro>();
 
 		var usuario = recuperarUsuario(userId);
-
-		if(usuario == null)
-			return null;
 
 		var registroExistente = registroExiste(usuario.getRegistros(), registro);
 
@@ -94,6 +91,7 @@ public class RegistroService {
 
 	private Registro registroExiste(List<Registro> registrosPersistidos, Registro registroAComparar){
 		log.info("Verificando se já existe registro no dia");
+		
 		for (Registro reg : registrosPersistidos) {
 			if (reg.getData().equals(registroAComparar.getData()))
 				return reg;
@@ -111,28 +109,20 @@ public class RegistroService {
 	private Usuario recuperarUsuario(long userId) {
 		log.info("Recuperando usuario com id: " + userId);
 
-		Optional<Usuario> usuarioOptional = usuarioRepository.findById(userId);
+		Usuario usuario = usuarioRepository
+							.findById(userId)
+							.orElseThrow(() -> new RestNotFoundException("Usuario não encontrado"));
 
-		if (usuarioOptional.isEmpty())
-		{
-			log.info("Usuário não encontrado");
-			return null;
-		}
-
-		return usuarioOptional.get();
+		return usuario;
 	}
 
 	private Registro recuperarRegistro(long registroId) {
 		log.info("Recuperando registro com id: " + registroId);
 
-		Optional<Registro> registroOptional = repository.findById(registroId);
+		Registro registro = repository
+								.findById(registroId)
+								.orElseThrow(() -> new RestNotFoundException("Registro não encontrado"));
 
-		if (registroOptional.isEmpty())
-		{
-			log.info("Registro não encontrado");
-			return null;
-		}	
-
-		return registroOptional.get();
+		return registro;
 	}
 }

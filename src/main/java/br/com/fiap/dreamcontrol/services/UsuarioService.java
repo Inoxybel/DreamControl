@@ -3,6 +3,9 @@ package br.com.fiap.dreamcontrol.services;
 import java.util.Optional;
 
 import br.com.fiap.dreamcontrol.dtos.UsuarioResponseDTO;
+import br.com.fiap.dreamcontrol.exceptions.RestNotFoundException;
+import br.com.fiap.dreamcontrol.exceptions.RestUnauthorizedException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +18,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UsuarioService {
-
 	Logger log = LoggerFactory.getLogger(RegistroService.class);
 	
 	private UsuarioRepository repository;
@@ -25,53 +27,50 @@ public class UsuarioService {
 		 this.repository = repository;
 	 }
 
-
-	public void cadastrar(Usuario usuario)
+	public Usuario cadastrar(Usuario usuario)
     {
-        log.info("cadastrando usuario: " + usuario);
+        log.info("Cadastrando usuario: " + usuario);
 
-		repository.save(usuario);
+		return repository.save(usuario);
     }
 
 	public UsuarioResponseDTO atualizar(Usuario usuario, long id)
 	{
-		log.info("atualizando cadastro de usuario pelo id: " + id);
-		Optional<Usuario> repositoryResponse = repository.findById(id);
+		log.info("Atualizando cadastro de usuario pelo id: " + id);
+		Usuario repositoryResponse = repository
+										.findById(id)
+										.orElseThrow(() -> new RestNotFoundException("Usuario não encontrado"));
 
-		if(repositoryResponse.isPresent())
+		boolean isUpdatable = false;
+		String novoNome = usuario.getNome();
+		String novoEmail = usuario.getEmail();
+		String novaSenha = usuario.getSenha();
+
+		if(repositoryResponse.getNome() != novoNome && !novoNome.isEmpty())
 		{
-			Usuario usuarioExistente = repositoryResponse.get();
-			boolean isUpdatable = false;
-			String novoNome = usuario.getNome();
-			String novoEmail = usuario.getEmail();
-			String novaSenha = usuario.getSenha();
+			isUpdatable = repositoryResponse.setNome(novoNome);
+		}
 
-			if(usuarioExistente.getNome() != novoNome && !novoNome.isEmpty())
-			{
-				usuarioExistente.setNome(novoNome);
-				isUpdatable = true;
-			}
+		if(repositoryResponse.getEmail() != novoEmail && !novoEmail.isEmpty())
+		{
+			isUpdatable = repositoryResponse.setEmail(novoEmail);
+		}
 
-			if(usuarioExistente.getEmail() != novoEmail && !novoEmail.isEmpty())
-			{
-				usuarioExistente.setEmail(novoEmail);
-				isUpdatable = true;
-			}
+		if(repositoryResponse.getSenha() != novaSenha)
+		{
+			isUpdatable = repositoryResponse.setSenha(novaSenha);
+		}
+			
+		if(isUpdatable)
+		{
+			var respostaAtualizacao = atualizarUsuario(repositoryResponse);
 
-			if(usuarioExistente.getSenha() != novaSenha)
-				isUpdatable = usuarioExistente.setSenha(novaSenha);
-
-			if(isUpdatable)
-			{
-				repository.save(usuarioExistente);
-				return new UsuarioResponseDTO(
-						usuarioExistente.getId(),
-						usuarioExistente.getNome(),
-						usuarioExistente.getEmail(),
-						usuarioExistente.getSenha()
-				);
-				// Retorna o objeto "usuarioExistente" atualizado e salvo no banco de dados
-			}
+			return new UsuarioResponseDTO(
+				respostaAtualizacao.getId(),
+				respostaAtualizacao.getNome(),
+				respostaAtualizacao.getEmail(),
+				respostaAtualizacao.getSenha()
+			);
 		}
 
 		return null;
@@ -79,14 +78,13 @@ public class UsuarioService {
 
 	public Usuario recuperar(long id)
 	{
-		log.info("recuperando cadastro de usuario pelo id: " + id);
+		log.info("Recuperando cadastro de usuario pelo id: " + id);
 
-		Optional<Usuario> repositoryResponse = repository.findById(id);
+		Usuario usuario = repository
+							.findById(id)
+							.orElseThrow(() -> new RestNotFoundException("Usuario não encontrado"));
 
-		if(repositoryResponse.isPresent())
-			return repositoryResponse.get();
-
-		return new Usuario("", "", "");
+		return usuario;
 	}
 
 	public LoginResponseDTO logar(LoginDTO credenciais)
@@ -98,15 +96,20 @@ public class UsuarioService {
 			e com esse ID a aplicação que consome tem acesso aos demais endpoints
 			que necessitam do id do usuário
 		*/
-		Optional<Usuario> repositoryResponse = repository.buscarCredenciais(credenciais.email(), credenciais.senha());
+		log.info("Validando credenciais informadas");
+
+		Usuario usuario = repository
+							.buscarCredenciais(credenciais.email(), credenciais.senha())
+							.orElseThrow(() -> new RestUnauthorizedException("Usuário ou Senha incorretos"));
 		
-		if(repositoryResponse.isPresent())
-		{
-			long acesso = repositoryResponse.get().getId();
-			return new LoginResponseDTO(acesso);
-		}
-			
-		return new LoginResponseDTO(0);
+		long acesso = usuario.getId();
+		return new LoginResponseDTO(acesso);
 	} 
 	 
+	private Usuario atualizarUsuario(Usuario usuario)
+    {
+        log.info("Atualizando usuario: " + usuario);
+
+		return repository.save(usuario);
+    }
 }

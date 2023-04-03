@@ -29,12 +29,11 @@ public class UsuarioController {
     @PostMapping("cadastrar")
     public ResponseEntity<UsuarioResponseDTO> cadastrar(@Valid @RequestBody Usuario usuario)
     {
-        usuarioService.cadastrar(usuario);
+        var usuarioCadastrado = usuarioService.cadastrar(usuario);
 
-        UsuarioResponseDTO usuarioCadastrado = new UsuarioResponseDTO(usuario.getId(), usuario.getNome(), usuario.getEmail(), usuario.getSenha());
-        return ResponseEntity.status(HttpStatus.CREATED).body(usuarioCadastrado);
+        var responseDTO = new UsuarioResponseDTO(usuarioCadastrado.getId(), usuarioCadastrado.getNome(), usuarioCadastrado.getEmail(), usuarioCadastrado.getSenha());
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
     }
-
 
     @PutMapping("{id}")
     public ResponseEntity<UsuarioResponseDTO> atualizar(@Valid @RequestBody Usuario usuario, @PathVariable long id)
@@ -55,9 +54,6 @@ public class UsuarioController {
         log.info("solicitando validação das credenciais informadas");
 
         LoginResponseDTO responseService = usuarioService.logar(credenciais);
-
-        if(responseService.id() == 0)
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseService);
 
         return ResponseEntity.status(HttpStatus.OK).body(responseService);
     }
