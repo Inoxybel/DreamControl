@@ -2,6 +2,7 @@ package br.com.fiap.dreamcontrol.config;
 
 import br.com.fiap.dreamcontrol.errors.RestConstraintViolationError;
 import br.com.fiap.dreamcontrol.errors.RestValidationError;
+import br.com.fiap.dreamcontrol.exceptions.RestUnauthorizedException;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.UnexpectedTypeException;
 import org.slf4j.Logger;
@@ -25,17 +26,23 @@ public class RestExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<List<RestValidationError>> handlemethodArgumentNotValidException(MethodArgumentNotValidException e){
-        log.error("erro de argumento inválido");
+        log.error("Erro de argumento inválido");
         List<RestValidationError> errors = new ArrayList<>();
         e.getFieldErrors().forEach(v -> errors.add(new RestValidationError(400, v.getField(), v.getDefaultMessage())));
         return ResponseEntity.badRequest().body(errors);
     }
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<List<RestConstraintViolationError>> handleConstraintViolationException(ConstraintViolationException e) {
-        log.error("erro de argumento inválido");
+        log.error("Erro de argumento inválido");
         List<RestConstraintViolationError> errors = new ArrayList<>();
         e.getConstraintViolations().forEach(constraintViolation -> errors.add(new RestConstraintViolationError(400, constraintViolation.getInvalidValue(),constraintViolation.getMessage())));
         return ResponseEntity.badRequest().body(errors);
+    }
+
+    @ExceptionHandler(RestUnauthorizedException.class)
+    public ResponseEntity<Object> handleUnauthorizedException(RestUnauthorizedException e) {
+        log.error("Usuário ou senha inválido", e);
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(NoSuchElementException.class)
@@ -47,7 +54,7 @@ public class RestExceptionHandler {
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<Object> handleDataIntegrityViolationException(DataIntegrityViolationException e) {
         log.error("Restrição de chave única violada", e);
-        return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        return new ResponseEntity<>("Email já cadastrado", HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(IllegalArgumentException.class)

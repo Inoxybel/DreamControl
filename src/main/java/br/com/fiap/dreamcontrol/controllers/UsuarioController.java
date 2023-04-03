@@ -1,6 +1,7 @@
 package br.com.fiap.dreamcontrol.controllers;
 
 import br.com.fiap.dreamcontrol.dtos.UsuarioResponseDTO;
+import br.com.fiap.dreamcontrol.exceptions.RestBadRequestException;
 import br.com.fiap.dreamcontrol.models.Usuario;
 import br.com.fiap.dreamcontrol.services.UsuarioService;
 import jakarta.validation.Valid;
@@ -27,22 +28,24 @@ public class UsuarioController {
     Logger log = LoggerFactory.getLogger(UsuarioController.class);
 
     @PostMapping("cadastrar")
-    public ResponseEntity<Usuario> cadastrar(@Valid @RequestBody Usuario usuario)
+    public ResponseEntity<UsuarioResponseDTO> cadastrar(@Valid @RequestBody Usuario usuario)
     {
-        usuarioService.cadastrar(usuario);
-        return ResponseEntity.status(HttpStatus.CREATED).body(usuario);
-    }
+        var usuarioCadastrado = usuarioService.cadastrar(usuario);
 
+        var responseDTO = new UsuarioResponseDTO(usuarioCadastrado.getId(), usuarioCadastrado.getNome(), usuarioCadastrado.getEmail(), usuarioCadastrado.getSenha());
+        
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
+    }
 
     @PutMapping("{id}")
     public ResponseEntity<UsuarioResponseDTO> atualizar(@Valid @RequestBody Usuario usuario, @PathVariable long id)
     {
-        log.info("atualizando cadastro de usuario pelo id: " + id);
+        log.info("Atualizando cadastro de usuario pelo id: " + id);
 
         UsuarioResponseDTO responseService = usuarioService.atualizar(usuario, id);
 
         if(responseService == null)
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            throw new RestBadRequestException("Atualização não efetuada. Tente novamente com dados diferentes.");
 
         return ResponseEntity.status(HttpStatus.OK).body(responseService);
     }
@@ -53,9 +56,6 @@ public class UsuarioController {
         log.info("solicitando validação das credenciais informadas");
 
         LoginResponseDTO responseService = usuarioService.logar(credenciais);
-
-        if(responseService.id() == 0)
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseService);
 
         return ResponseEntity.status(HttpStatus.OK).body(responseService);
     }
