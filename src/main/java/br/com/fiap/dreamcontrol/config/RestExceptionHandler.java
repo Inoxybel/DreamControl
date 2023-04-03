@@ -54,7 +54,7 @@ public class RestExceptionHandler {
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<Object> handleDataIntegrityViolationException(DataIntegrityViolationException e) {
         log.error("Restrição de chave única violada", e);
-        return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        return new ResponseEntity<>("Email já cadastrado", HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
