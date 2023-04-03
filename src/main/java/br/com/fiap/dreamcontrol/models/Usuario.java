@@ -16,7 +16,7 @@ public class Usuario {
     private Long id;
 
     @NotNull
-    @NotBlank
+    @Size(min = 3, max = 40)
     @Column(nullable = false)
     private String nome;
 
@@ -26,7 +26,8 @@ public class Usuario {
     private String email;
 
     @NotNull
-    @NotBlank @Size(min = 8, max = 20)
+    @NotBlank 
+    @Size(min = 8, max = 20)
     @Column(nullable = false)
     private String senha;
 
@@ -40,8 +41,6 @@ public class Usuario {
     @OneToOne
     private Relatorio relatorio;
 
-
-
     public Usuario(String nome, String email, String senha) {
         if(!setNome(nome))
             throw new IllegalArgumentException("Nome inválido");
@@ -51,7 +50,6 @@ public class Usuario {
 
         if(!setSenha(senha))
             throw new IllegalArgumentException("Senha inválida");
-        
     }
 
     public Usuario() {

@@ -17,7 +17,9 @@ import org.springframework.stereotype.Service;
 public class UsuarioService {
 
 	Logger log = LoggerFactory.getLogger(RegistroService.class);
+	
 	private UsuarioRepository repository;
+
 	 @Autowired
  	public UsuarioService(UsuarioRepository repository) {
 		 this.repository = repository;

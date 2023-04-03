@@ -27,10 +27,12 @@ public class UsuarioController {
     Logger log = LoggerFactory.getLogger(UsuarioController.class);
 
     @PostMapping("cadastrar")
-    public ResponseEntity<Usuario> cadastrar(@Valid @RequestBody Usuario usuario)
+    public ResponseEntity<UsuarioResponseDTO> cadastrar(@Valid @RequestBody Usuario usuario)
     {
         usuarioService.cadastrar(usuario);
-        return ResponseEntity.status(HttpStatus.CREATED).body(usuario);
+
+        UsuarioResponseDTO usuarioCadastrado = new UsuarioResponseDTO(usuario.getId(), usuario.getNome(), usuario.getEmail(), usuario.getSenha());
+        return ResponseEntity.status(HttpStatus.CREATED).body(usuarioCadastrado);
     }
 
 

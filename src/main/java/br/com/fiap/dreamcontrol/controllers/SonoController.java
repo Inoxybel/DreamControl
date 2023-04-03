@@ -65,12 +65,15 @@ public class SonoController {
     public ResponseEntity<Registro> registrarSono(@Valid @RequestBody Registro registro, @PathVariable long userId)
     {
         log.info("cadastrando registro de sono");
-        var successful = registroService.registrarSono(registro, userId);
+        var retornoService = registroService.registrarSono(registro, userId);
 
-        if (!successful) {
+        if (retornoService == null)
             return ResponseEntity.badRequest().build();
-        }
-        return ResponseEntity.status(HttpStatus.CREATED).body(registro);
+        
+        if(retornoService.containsKey(true))
+            return ResponseEntity.status(HttpStatus.OK).body(retornoService.get(true));
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(retornoService.get(false));
     }
 
     @DeleteMapping("{userId}/deletar/{registroId}")
