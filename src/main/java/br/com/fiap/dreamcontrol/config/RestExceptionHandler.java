@@ -2,6 +2,7 @@ package br.com.fiap.dreamcontrol.config;
 
 import br.com.fiap.dreamcontrol.errors.RestConstraintViolationError;
 import br.com.fiap.dreamcontrol.errors.RestValidationError;
+import br.com.fiap.dreamcontrol.exceptions.RestBadRequestException;
 import br.com.fiap.dreamcontrol.exceptions.RestUnauthorizedException;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.UnexpectedTypeException;
@@ -80,5 +81,11 @@ public class RestExceptionHandler {
     public ResponseEntity<Object> handleUnexpectedTypeException(UnexpectedTypeException ex) {
         log.error("Erro de tipo inesperado", ex);
         return ResponseEntity.badRequest().body("Erro de tipo inesperado: " + ex.getMessage());
+    }
+
+    @ExceptionHandler(RestBadRequestException.class)
+    public ResponseEntity<Object> handleBadRequestException(RestBadRequestException ex) {
+        log.error("Atualização não efetuada. Tente novamente com dados diferentes.", ex);
+        return ResponseEntity.badRequest().body(ex.getMessage());
     }
 }

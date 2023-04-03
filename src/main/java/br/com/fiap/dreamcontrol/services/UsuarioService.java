@@ -44,17 +44,17 @@ public class UsuarioService {
 
 		boolean isUpdatable = false;
 
-		if(usuario.nome() != null && usuario.nome() != repositoryResponse.getNome())
+		if(usuario.nome() != null && !usuario.nome().equals(repositoryResponse.getNome()))
 		{
 			isUpdatable = repositoryResponse.setNome(usuario.nome());
 		}
 
-		if(usuario.email() != null && usuario.email() != repositoryResponse.getEmail())
+		if(usuario.email() != null && !usuario.email().equals(repositoryResponse.getEmail()))
 		{
 			isUpdatable = repositoryResponse.setEmail(usuario.email());
 		}
 
-		if(usuario.senha() != null && usuario.senha() != repositoryResponse.getSenha())
+		if(usuario.senha() != null && !usuario.senha().equals(repositoryResponse.getSenha()))
 		{
 			isUpdatable = repositoryResponse.setSenha(usuario.senha());
 		}
