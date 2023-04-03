@@ -67,7 +67,7 @@ Uma API para o sistema de controlar a saúde do sono.
 | Código | Descrição
 |:-:|-
 | 200 | Usuario atualizado com sucesso
-| 400 | Erro na execução do processamento
+| 400 | Erro na requisição
 | 404 | Usuario não encontrado
 
 ---
@@ -130,8 +130,9 @@ Uma API para o sistema de controlar a saúde do sono.
 **Códigos de Resposta**
 | Código | Descrição
 |:-:|-
-| 201 | Usuario cadastrado com sucesso
-| 403 | Erro na requisição
+| 201 | Objetivo cadastrado com sucesso
+| 400 | Erro na requisição
+| 404 | Usuario não encontrado
 | 422 | Erro ao processar a requisição
 
 ---
@@ -154,8 +155,9 @@ Uma API para o sistema de controlar a saúde do sono.
 | Código | Descrição
 |:-:|-
 | 200 | Objetivo recuperado com sucesso
-| 204 | Objetivo não encontrado
-| 403 | Erro na requisição
+| 404 | Usuario não encontrado
+| 404 | Objetivo não encontrado
+| 400 | Erro na requisição
 
 ---
 
@@ -181,8 +183,8 @@ Uma API para o sistema de controlar a saúde do sono.
 | Código | Descrição
 |:-:|-
 | 201 | Usuario cadastrado com sucesso
-| 403 | Erro na requisição
-| 422 | Erro ao processar a requisição
+| 400 | Erro na requisição
+| 404 | Usuario não encontrado
 
 ---
 
@@ -202,6 +204,7 @@ Uma API para o sistema de controlar a saúde do sono.
 | Código | Descrição
 |:-:|-
 | 204 | Objeto deletado com sucesso
+| 404 | Usuario não encontrado
 | 404 | Objeto não encontrado
 
 ---
@@ -239,8 +242,9 @@ Uma API para o sistema de controlar a saúde do sono.
 | Código | Descrição
 |:-:|-
 | 200 | Historico recuperado com sucesso
-| 204 | Historico não encontrado
-| 403 | Erro na requisição
+| 400 | Erro na requisição
+| 404 | Usuario não encontrado
+| 404 | Historico não encontrado
 
 ---
 
@@ -270,7 +274,7 @@ Uma API para o sistema de controlar a saúde do sono.
 | Código | Descrição
 |:-:|-
 | 200 | Relatorio recuperado com sucesso
-| 204 | Erro na validação dos dados da requisição
-| 403 | Erro na requisição
+| 400 | Erro na requisição
+| 404 | Usuario não encontrado
 
 ---

@@ -25,14 +25,14 @@ public class RestExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<List<RestValidationError>> handlemethodArgumentNotValidException(MethodArgumentNotValidException e){
-        log.error("erro de argumento inválido");
+        log.error("Erro de argumento inválido");
         List<RestValidationError> errors = new ArrayList<>();
         e.getFieldErrors().forEach(v -> errors.add(new RestValidationError(400, v.getField(), v.getDefaultMessage())));
         return ResponseEntity.badRequest().body(errors);
     }
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<List<RestConstraintViolationError>> handleConstraintViolationException(ConstraintViolationException e) {
-        log.error("erro de argumento inválido");
+        log.error("Erro de argumento inválido");
         List<RestConstraintViolationError> errors = new ArrayList<>();
         e.getConstraintViolations().forEach(constraintViolation -> errors.add(new RestConstraintViolationError(400, constraintViolation.getInvalidValue(),constraintViolation.getMessage())));
         return ResponseEntity.badRequest().body(errors);

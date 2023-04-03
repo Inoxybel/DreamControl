@@ -32,9 +32,6 @@ public class RelatorioService {
 
         Usuario usuario = usuarioService.recuperar(userId);
 
-        if(usuario.getEmail().isEmpty())
-            return null;
-
         Objetivo objetivo = usuario.getObjetivo();
         List<Registro> registros = usuario.getRegistros();
 

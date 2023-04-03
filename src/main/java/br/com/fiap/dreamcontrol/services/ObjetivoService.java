@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import br.com.fiap.dreamcontrol.exceptions.RestNotFoundException;
 import br.com.fiap.dreamcontrol.models.Objetivo;
 import br.com.fiap.dreamcontrol.repositories.ObjetivoRepository;
 import org.springframework.stereotype.Service;
@@ -25,36 +26,25 @@ public class ObjetivoService {
 		this.usuarioRepository = usuarioRepository;
 	}
 	 
-	 public Boolean cadastrarObjetivo(Objetivo objetivo, long userId)
+	 public Objetivo cadastrarObjetivo(Objetivo objetivo, long userId)
 	    {
-			// Busca o usuário correspondente ao ID informado
-			Optional<Usuario> usuarioOptional = usuarioRepository.findById(userId);
-			if (usuarioOptional.isEmpty()) {
-				return false;
-			}
-			Usuario usuario = usuarioOptional.get();
+			Usuario usuario = usuarioRepository
+									.findById(userId)
+									.orElseThrow(() -> new RestNotFoundException("Usuario não encontrado"));
 
-			// Define o usuário como o dono do objetivo
 			objetivo.setUsuario(usuario);
 			objetivo.setDataCriacao();
 
-			// Salva o objetivo na base de dados
-			repository.save(objetivo);
-
-			return true;
+			return repository.save(objetivo);
 	    }
 	 
 	 public Objetivo recuperarObjetivo(long userId)
 	    {
 	        log.info("buscando objetivo com id: " + userId);
 	        
-	        Optional<Usuario> objetivoEncontrado = usuarioRepository.findById(userId);
-	        
-	        if(objetivoEncontrado.isEmpty())
-	        	return null;
-
-			Usuario usuario = objetivoEncontrado.get();
-
+	        Usuario usuario = usuarioRepository
+									.findById(userId)
+									.orElseThrow(() -> new RestNotFoundException("Usuario não encontrado"));
 
 			Objetivo objetivo = usuario.getObjetivo();
 	        
