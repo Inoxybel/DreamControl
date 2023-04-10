@@ -2,6 +2,7 @@ package br.com.fiap.dreamcontrol.config;
 
 import br.com.fiap.dreamcontrol.errors.RestConstraintViolationError;
 import br.com.fiap.dreamcontrol.errors.RestValidationError;
+import br.com.fiap.dreamcontrol.exceptions.RestBadRequestException;
 import br.com.fiap.dreamcontrol.exceptions.RestUnauthorizedException;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.UnexpectedTypeException;
@@ -11,6 +12,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -69,9 +71,21 @@ public class RestExceptionHandler {
         return ResponseEntity.badRequest().body("Erro de mensagem HTTP inválida: " + ex.getMessage());
     }
 
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public ResponseEntity<Object> handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException ex) {
+        log.error("Erro de método de request inválido", ex);
+        return ResponseEntity.badRequest().body("Erro de método de request: " + ex.getMessage());
+    }
+
     @ExceptionHandler(UnexpectedTypeException.class)
     public ResponseEntity<Object> handleUnexpectedTypeException(UnexpectedTypeException ex) {
         log.error("Erro de tipo inesperado", ex);
         return ResponseEntity.badRequest().body("Erro de tipo inesperado: " + ex.getMessage());
+    }
+
+    @ExceptionHandler(RestBadRequestException.class)
+    public ResponseEntity<Object> handleBadRequestException(RestBadRequestException ex) {
+        log.error("Atualização não efetuada. Tente novamente com dados diferentes.", ex);
+        return ResponseEntity.badRequest().body(ex.getMessage());
     }
 }

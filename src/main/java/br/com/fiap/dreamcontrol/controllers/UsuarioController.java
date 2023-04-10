@@ -1,6 +1,7 @@
 package br.com.fiap.dreamcontrol.controllers;
 
 import br.com.fiap.dreamcontrol.dtos.UsuarioResponseDTO;
+import br.com.fiap.dreamcontrol.dtos.UsuarioUpdateDTO;
 import br.com.fiap.dreamcontrol.exceptions.RestBadRequestException;
 import br.com.fiap.dreamcontrol.models.Usuario;
 import br.com.fiap.dreamcontrol.services.UsuarioService;
@@ -38,7 +39,7 @@ public class UsuarioController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<UsuarioResponseDTO> atualizar(@Valid @RequestBody Usuario usuario, @PathVariable long id)
+    public ResponseEntity<UsuarioResponseDTO> atualizar(@RequestBody UsuarioUpdateDTO usuario, @PathVariable long id)
     {
         log.info("Atualizando cadastro de usuario pelo id: " + id);
 
