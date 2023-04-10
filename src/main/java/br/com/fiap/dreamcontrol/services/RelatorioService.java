@@ -33,7 +33,7 @@ public class RelatorioService {
         Usuario usuario = usuarioService.recuperar(userId);
 
         Objetivo objetivo = usuario.getObjetivo();
-        List<Registro> registros = usuario.getRegistros();
+        List<Registro> registros = usuario.getRegistro();
 
         log.info("Filtrando e organizando os registros recuperados");
         List<Registro> registrosValidos = getRegistrosValidos(registros, objetivo);

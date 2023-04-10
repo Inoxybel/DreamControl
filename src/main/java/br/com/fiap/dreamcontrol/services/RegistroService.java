@@ -36,12 +36,12 @@ public class RegistroService {
 
 		var usuario = recuperarUsuario(userId);
 
-		var registroExistente = registroExiste(usuario.getRegistros(), registro);
+		var registroExistente = registroExiste(usuario.getRegistro(), registro);
 
 		if(registroExistente == null)
 		{
 			registro.setUsuario(usuario);
-			usuario.getRegistros().add(registro);
+			usuario.getRegistro().add(registro);
 
 			var registroSalvo = salvarRegistro(registro);
 
@@ -70,7 +70,7 @@ public class RegistroService {
 			throw new RestNotFoundException("Registro informado não pertence ao Usuário informado");
 		}
 
-		usuario.getRegistros().remove(registro);
+		usuario.getRegistro().remove(registro);
 		usuarioRepository.save(usuario);
 		repository.delete(registro);
 	}

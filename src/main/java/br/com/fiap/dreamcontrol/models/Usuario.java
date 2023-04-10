@@ -7,7 +7,10 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import lombok.*;
 
+@Data
+@NoArgsConstructor
 @Entity
 public class Usuario {
 	
@@ -52,12 +55,6 @@ public class Usuario {
             throw new IllegalArgumentException("Senha inválida");
     }
 
-    public Usuario() {}
-
-    public String getNome() {
-        return nome;
-    }
-
     public boolean setNome(String novoNome) {
         if(validarNome(novoNome))
         {
@@ -66,10 +63,6 @@ public class Usuario {
         }
 
         return false;
-    }
-
-    public String getEmail() {
-        return email;
     }
 
     public boolean setEmail(String novoEmail) {
@@ -82,10 +75,6 @@ public class Usuario {
         return false;
     }
 
-    public String getSenha() {
-        return senha;
-    }
-
     public boolean setSenha(String novaSenha) {
         if(validarSenha(novaSenha))
         {
@@ -94,29 +83,6 @@ public class Usuario {
         }
 
         return false;
-    }
-
-    public List<Registro> getRegistros()
-    {
-        return registro;
-    }
-
-    public void setRegistro(List<Registro> registro) {
-        this.registro = registro;
-    }
-
-    public void setObjetivo(Objetivo objetivo) {
-        this.objetivo = objetivo;
-    }
-
-    public Objetivo getObjetivo()
-    {
-        return objetivo;
-    }
-
-    public long getId()
-    {
-        return id;
     }
 
     private boolean validarNome(String nome)
@@ -142,12 +108,5 @@ public class Usuario {
         java.util.regex.Pattern padrao = java.util.regex.Pattern.compile(regex);
 
         return padrao.matcher(email).matches();
-    }
-
-    @Override
-    public String toString() {
-        return "Nome : " + nome + 
-             "\nEmail: " + email + 
-             "\nSenha: " + senha;
     }
 }

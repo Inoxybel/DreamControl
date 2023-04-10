@@ -28,7 +28,7 @@ public class HistoricoService {
 
         Usuario usuario = usuarioService.recuperar(userId);
 
-        List<Registro> registros = usuario.getRegistros();
+        List<Registro> registros = usuario.getRegistro();
 
         if (registros == null) {
             registros = new ArrayList<>();
