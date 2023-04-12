@@ -3,10 +3,11 @@ package br.com.fiap.dreamcontrol.config;
 import br.com.fiap.dreamcontrol.errors.RestConstraintViolationError;
 import br.com.fiap.dreamcontrol.errors.RestValidationError;
 import br.com.fiap.dreamcontrol.exceptions.RestBadRequestException;
+import br.com.fiap.dreamcontrol.exceptions.RestNotFoundException;
 import br.com.fiap.dreamcontrol.exceptions.RestUnauthorizedException;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.UnexpectedTypeException;
-import org.slf4j.Logger;
+import org.slf4j.Logger; 
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -33,6 +34,7 @@ public class RestExceptionHandler {
         e.getFieldErrors().forEach(v -> errors.add(new RestValidationError(400, v.getField(), v.getDefaultMessage())));
         return ResponseEntity.badRequest().body(errors);
     }
+    
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<List<RestConstraintViolationError>> handleConstraintViolationException(ConstraintViolationException e) {
         log.error("Erro de argumento inválido");
@@ -87,5 +89,11 @@ public class RestExceptionHandler {
     public ResponseEntity<Object> handleBadRequestException(RestBadRequestException ex) {
         log.error("Atualização não efetuada. Tente novamente com dados diferentes.", ex);
         return ResponseEntity.badRequest().body(ex.getMessage());
+    }
+
+    @ExceptionHandler(RestNotFoundException.class)
+    public ResponseEntity<Object> handleNotFoundException(RestNotFoundException ex) {
+        log.error("Objeto não encontrado", ex);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
 }

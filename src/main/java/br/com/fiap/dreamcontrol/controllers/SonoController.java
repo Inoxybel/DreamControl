@@ -1,12 +1,15 @@
 package br.com.fiap.dreamcontrol.controllers;
 
 import br.com.fiap.dreamcontrol.dtos.HistoricoDTO;
-import br.com.fiap.dreamcontrol.exceptions.RestNotFoundException;
+import br.com.fiap.dreamcontrol.dtos.PaginationResponseDTO;
 import br.com.fiap.dreamcontrol.services.*;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -75,13 +78,13 @@ public class SonoController {
     }
 
     @GetMapping("{userId}/historico")
-    public ResponseEntity<HistoricoDTO> recuperarHistorico(@PathVariable long userId)
+    public PaginationResponseDTO recuperarHistorico(@PathVariable long userId, @PageableDefault(size = 3) Pageable pageable)
     {
         log.info("Buscando historico");
 
-        var historicoEncontrado = historicoService.recuperarHistorico(userId);
+        var historicoEncontrado = historicoService.recuperarHistorico(userId, pageable);
 
-        return ResponseEntity.ok(historicoEncontrado);
+        return historicoEncontrado;
     }
 
 

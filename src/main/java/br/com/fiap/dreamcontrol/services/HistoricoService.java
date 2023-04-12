@@ -1,39 +1,43 @@
 package br.com.fiap.dreamcontrol.services;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import br.com.fiap.dreamcontrol.dtos.HistoricoDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
+import br.com.fiap.dreamcontrol.dtos.PaginationResponseDTO;
 import br.com.fiap.dreamcontrol.models.Registro;
 import br.com.fiap.dreamcontrol.models.Usuario;
+import br.com.fiap.dreamcontrol.repositories.RegistroRepository;
+
 import org.springframework.stereotype.Service;
 
 @Service
 public class HistoricoService {
 
     Logger log = LoggerFactory.getLogger(HistoricoService.class);
-    private UsuarioService usuarioService;
+    private RegistroRepository registroRepository;
 
     @Autowired
-    public HistoricoService(UsuarioService usuarioService) {
-        this.usuarioService = usuarioService;
+    public HistoricoService(RegistroRepository registroRepository) {
+        this.registroRepository = registroRepository;
     }
 
-    public HistoricoDTO recuperarHistorico(long userId) {
+    public PaginationResponseDTO recuperarHistorico(long userId, Pageable pageable) {
         log.info("Buscando historico de sono do usuário: " + userId);
 
-        Usuario usuario = usuarioService.recuperar(userId);
+        var registros = registroRepository.getAllRegisters(userId, pageable);
 
-        List<Registro> registros = usuario.getRegistro();
+        var responsePersonalizado = new PaginationResponseDTO(
+            registros.getContent(),
+            registros.getNumber(),
+            registros.getTotalElements(),
+            registros.getTotalPages(),
+            registros.isFirst(),
+            registros.isLast()
+        );
 
-        if (registros == null) {
-            registros = new ArrayList<>();
-        }
-
-        return new HistoricoDTO(registros);
+        return responsePersonalizado;
     }
 }
