@@ -3,12 +3,9 @@ package br.com.fiap.dreamcontrol.services;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import br.com.fiap.dreamcontrol.dtos.PaginationResponseDTO;
-import br.com.fiap.dreamcontrol.models.Registro;
-import br.com.fiap.dreamcontrol.models.Usuario;
 import br.com.fiap.dreamcontrol.repositories.RegistroRepository;
 
 import org.springframework.stereotype.Service;

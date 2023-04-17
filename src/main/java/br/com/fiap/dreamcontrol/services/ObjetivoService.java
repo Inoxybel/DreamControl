@@ -1,6 +1,5 @@
 package br.com.fiap.dreamcontrol.services;
 
-import java.util.Optional;
 
 import br.com.fiap.dreamcontrol.models.Usuario;
 import br.com.fiap.dreamcontrol.repositories.UsuarioRepository;
@@ -50,6 +49,4 @@ public class ObjetivoService {
 	        
 			return objetivo;
 	    }
-	
-
 }

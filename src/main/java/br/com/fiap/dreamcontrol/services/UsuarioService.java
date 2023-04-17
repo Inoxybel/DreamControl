@@ -1,6 +1,5 @@
 package br.com.fiap.dreamcontrol.services;
 
-import java.util.Optional;
 
 import br.com.fiap.dreamcontrol.dtos.UsuarioResponseDTO;
 import br.com.fiap.dreamcontrol.dtos.UsuarioUpdateDTO;
