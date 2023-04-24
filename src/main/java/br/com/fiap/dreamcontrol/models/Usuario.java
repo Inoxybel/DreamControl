@@ -2,12 +2,19 @@ package br.com.fiap.dreamcontrol.models;
 
 import java.util.List;
 
+import br.com.fiap.dreamcontrol.controllers.UsuarioController;
+import br.com.fiap.dreamcontrol.dtos.LoginDTO;
+import br.com.fiap.dreamcontrol.dtos.UsuarioUpdateDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+import org.springframework.hateoas.EntityModel;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Data
 @NoArgsConstructor
@@ -108,5 +115,15 @@ public class Usuario {
         java.util.regex.Pattern padrao = java.util.regex.Pattern.compile(regex);
 
         return padrao.matcher(email).matches();
+    }
+
+    public EntityModel<Usuario> toModel()
+    {
+        return EntityModel.of(
+                this,
+                linkTo(methodOn(UsuarioController.class).cadastrar(this)).withSelfRel(),
+                linkTo(methodOn(UsuarioController.class).atualizar(new UsuarioUpdateDTO(this.getNome(), this.getEmail(), this.getSenha()), this.getId())).withRel("atualizar"),
+                linkTo(methodOn(UsuarioController.class).logar(new LoginDTO(this.getEmail(), this.getSenha()))).withRel("login")
+        );
     }
 }
