@@ -17,6 +17,7 @@ import br.com.fiap.dreamcontrol.services.HistoricoService;
 import br.com.fiap.dreamcontrol.services.ObjetivoService;
 import br.com.fiap.dreamcontrol.services.RegistroService;
 import br.com.fiap.dreamcontrol.services.RelatorioService;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.server.ResponseStatusException;
@@ -83,10 +84,10 @@ public class SonoControllerTests {
         objetivo.setUsuario(new Usuario());
         when(objetivoService.recuperarObjetivo(userId)).thenReturn(objetivo);
 
-        ResponseEntity<Objetivo> response = sonoController.recuperarObjetivo(userId);
+        EntityModel<Objetivo> response = sonoController.recuperarObjetivo(userId);
 
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(objetivo, response.getBody());
+        //assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(objetivo, response);
     }
 
     @Test

@@ -1,7 +1,6 @@
 package br.com.fiap.dreamcontrol.controllers;
 
-import br.com.fiap.dreamcontrol.dtos.HistoricoDTO;
-import br.com.fiap.dreamcontrol.dtos.PaginationResponseDTO;
+import br.com.fiap.dreamcontrol.dtos.*;
 import br.com.fiap.dreamcontrol.services.*;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -10,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +18,9 @@ import br.com.fiap.dreamcontrol.models.Objetivo;
 import br.com.fiap.dreamcontrol.models.Registro;
 import br.com.fiap.dreamcontrol.models.Relatorio;
 import org.springframework.web.server.ResponseStatusException;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("/api/sono")
@@ -38,21 +41,32 @@ public class SonoController {
     }
 
     @PostMapping("{userId}/objetivo")
-    public ResponseEntity<Objetivo> cadastrarObjetivo(@Valid @RequestBody Objetivo objetivo, @PathVariable long userId)
+    public ResponseEntity<EntityModel<Objetivo>> cadastrarObjetivo(@Valid @RequestBody Objetivo objetivo, @PathVariable long userId)
     {
         log.info("Cadastrando objetivo");
         Objetivo responseService = objetivoService.cadastrarObjetivo(objetivo, userId);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(responseService);
+        var entityModel = EntityModel.of(
+                responseService,
+                linkTo(methodOn(SonoController.class).cadastrarObjetivo(objetivo, userId)).withSelfRel(),
+                linkTo(methodOn(SonoController.class).recuperarObjetivo(userId)).withRel("recuperar")
+        );
+
+        return ResponseEntity.created(linkTo(methodOn(SonoController.class).cadastrarObjetivo(objetivo, userId)).toUri())
+                .body(entityModel);
     }
 
     @GetMapping("{userId}/objetivo")
-    public ResponseEntity<Objetivo> recuperarObjetivo(@PathVariable long userId)
+    public EntityModel<Objetivo> recuperarObjetivo(@PathVariable long userId)
     {
         log.info("Buscando objetivo");
         var objetivo = objetivoService.recuperarObjetivo(userId);
 
-        return ResponseEntity.ok(objetivo);
+        return EntityModel.of(
+                objetivo,
+                linkTo(methodOn(SonoController.class).recuperarObjetivo(userId)).withSelfRel(),
+                linkTo(methodOn(SonoController.class).cadastrarObjetivo(objetivo, userId)).withRel("cadastrar")
+        );
     }
 
     @PostMapping("{userId}/registrar")
