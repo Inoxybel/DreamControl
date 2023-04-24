@@ -96,17 +96,12 @@ public class SonoController {
 
 
     @DeleteMapping("{userId}/deletar/{registroId}")
-    public ResponseEntity<EntityModel<Object>> deletarRegistro(@PathVariable long userId, @PathVariable long registroId) {
+    public ResponseEntity<Registro> deletarRegistro(@PathVariable long userId, @PathVariable long registroId)
+    {
         log.info("Deletando registro de sono");
 
         registroService.deletarRegistro(userId, registroId);
-
-        var entityModel = EntityModel.of(
-                null,
-                linkTo(methodOn(SonoController.class).registrarSono(null, userId)).withRel("registrar")
-        );
-
-        return ResponseEntity.status(HttpStatus.OK).body(entityModel);
+        return ResponseEntity.noContent().build();
     }
 
 
