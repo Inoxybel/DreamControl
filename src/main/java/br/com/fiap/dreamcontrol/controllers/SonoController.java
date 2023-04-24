@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -70,49 +71,77 @@ public class SonoController {
     }
 
     @PostMapping("{userId}/registrar")
-    public ResponseEntity<Registro> registrarSono(@Valid @RequestBody Registro registro, @PathVariable long userId)
-    {
+    public ResponseEntity<EntityModel<Registro>> registrarSono(@Valid @RequestBody Registro registro, @PathVariable long userId) {
         log.info("Cadastrando registro de sono");
         var retornoService = registroService.registrarSono(registro, userId);
-        
-        if(retornoService.containsKey(true))
-            return ResponseEntity.status(HttpStatus.OK).body(retornoService.get(true));
+        Registro retorno;
+        HttpStatus status;
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(retornoService.get(false));
+        if (retornoService.containsKey(true)) {
+            retorno = retornoService.get(true);
+            status = HttpStatus.CREATED;
+        } else {
+            retorno = retornoService.get(false);
+            status = HttpStatus.OK;
+        }
+
+        var entityModel = EntityModel.of(
+                retorno,
+                linkTo(methodOn(SonoController.class).registrarSono(registro, userId)).withSelfRel(),
+                linkTo(methodOn(SonoController.class).deletarRegistro(userId, retorno.getId())).withRel("deletar")
+        );
+
+        return ResponseEntity.status(status).body(entityModel);
     }
+
 
     @DeleteMapping("{userId}/deletar/{registroId}")
-    public ResponseEntity<Registro> deletarRegistro(@PathVariable long userId, @PathVariable long registroId)
-    {
+    public ResponseEntity<EntityModel<Object>> deletarRegistro(@PathVariable long userId, @PathVariable long registroId) {
         log.info("Deletando registro de sono");
-        
+
         registroService.deletarRegistro(userId, registroId);
 
-        return ResponseEntity.noContent().build();
+        var entityModel = EntityModel.of(
+                null,
+                linkTo(methodOn(SonoController.class).registrarSono(null, userId)).withRel("registrar")
+        );
+
+        return ResponseEntity.status(HttpStatus.OK).body(entityModel);
     }
 
+
     @GetMapping("{userId}/historico")
-    public PaginationResponseDTO recuperarHistorico(@PathVariable long userId, @PageableDefault(size = 3) Pageable pageable)
-    {
+    public ResponseEntity<EntityModel<PaginationResponseDTO>> recuperarHistorico(@PathVariable long userId, @PageableDefault(size = 3) Pageable pageable) {
         log.info("Buscando historico");
 
         var historicoEncontrado = historicoService.recuperarHistorico(userId, pageable);
 
-        return historicoEncontrado;
+        var entityModel = EntityModel.of(
+                historicoEncontrado,
+                linkTo(methodOn(SonoController.class).recuperarHistorico(userId, pageable)).withSelfRel(),
+                linkTo(methodOn(SonoController.class).recuperarRelatorio(userId)).withRel("relatorio")
+        );
+
+        return ResponseEntity.ok(entityModel);
     }
 
-
     @GetMapping("{userId}/relatorio")
-    public ResponseEntity<Relatorio> recuperarRelatorio(@PathVariable long userId)
-    {
+    public ResponseEntity<EntityModel<Relatorio>> recuperarRelatorio(@PathVariable long userId) {
         log.info("Buscando relatorio");
 
         var relatorioGerado = relatorioService.gerar(userId);
 
-        if (relatorioGerado == null){
+        if (relatorioGerado == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Relatorio não encontrado");
         }
 
-        return ResponseEntity.ok(relatorioGerado);
+        var entityModel = EntityModel.of(
+                relatorioGerado,
+                linkTo(methodOn(SonoController.class).recuperarRelatorio(userId)).withSelfRel(),
+                linkTo(methodOn(SonoController.class).recuperarHistorico(userId, Pageable.unpaged())).withRel("historico")
+        );
+
+        return ResponseEntity.ok(entityModel);
     }
+
 }
