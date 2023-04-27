@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import br.com.crosscutting.builders.PaginationResponseDTOBuilder;
 import br.com.fiap.dreamcontrol.controllers.SonoController;
+import br.com.fiap.dreamcontrol.dtos.PaginationResponseDTO;
 import br.com.fiap.dreamcontrol.services.HistoricoService;
 import br.com.fiap.dreamcontrol.services.ObjetivoService;
 import br.com.fiap.dreamcontrol.services.RegistroService;
@@ -46,8 +47,7 @@ public class SonoControllerTests {
     }
 
     @Test
-    public void cadastrarObjetivo_Deve_RetornarObjetivoCadastrado()
-    {
+    public void cadastrarObjetivo_Deve_RetornarObjetivoCadastrado() {
         Objetivo objetivo = new Objetivo(10, 8);
         long userId = 1L;
         Objetivo objetivoCadastrado = new Objetivo(10, 8);
@@ -56,11 +56,12 @@ public class SonoControllerTests {
         objetivoCadastrado.setUsuario(new Usuario());
         when(objetivoService.cadastrarObjetivo(objetivo, userId)).thenReturn(objetivoCadastrado);
 
-        ResponseEntity<Objetivo> response = sonoController.cadastrarObjetivo(objetivo, userId);
+        ResponseEntity<EntityModel<Objetivo>> response = sonoController.cadastrarObjetivo(objetivo, userId);
 
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        assertEquals(objetivoCadastrado, response.getBody());
+        assertEquals(objetivoCadastrado, response.getBody().getContent());
     }
+
 
     @Test
     public void cadastrarObjetivo_Deve_Lancar_RestNotFoundException_QuandoUsuarioNaoForEncontrado()
@@ -87,7 +88,7 @@ public class SonoControllerTests {
         EntityModel<Objetivo> response = sonoController.recuperarObjetivo(userId);
 
         //assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(objetivo, response);
+        assertEquals(objetivo, response.getContent());
     }
 
     @Test
@@ -102,50 +103,48 @@ public class SonoControllerTests {
     }
 
     @Test
-    public void registrarSono_Deve_RetornarSonoCadastrado()
-    {
+    public void registrarSono_Deve_RetornarSonoCadastrado() {
         Registro registro = new Registro(LocalDate.now(), LocalTime.of(07, 25, 30));
         long userId = 1L;
 
         when(registroService.registrarSono(registro, userId)).thenReturn(Collections.singletonMap(false, registro));
 
-        ResponseEntity<Registro> response = sonoController.registrarSono(registro, userId);
+        ResponseEntity<EntityModel<Registro>> response = sonoController.registrarSono(registro, userId);
 
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        assertEquals(registro, response.getBody());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(registro, response.getBody().getContent());
     }
 
     @Test
-    public void deletarRegistro_Deve_RetornarNoContent_QuandoRegistroExistirEUsuarioForValido()
-    {
+    public void deletarRegistro_Deve_RetornarNoContent_QuandoRegistroExistirEUsuarioForValido() {
         long userId = 1L;
         long registroId = 1L;
         Registro registro = new Registro(LocalDate.now(), LocalTime.now());
         registro.setUsuario(new Usuario());
         doNothing().when(registroService).deletarRegistro(userId, registroId);
 
-        ResponseEntity<Registro> response = sonoController.deletarRegistro(userId, registroId);
+        ResponseEntity<EntityModel<Object>> response = sonoController.deletarRegistro(userId, registroId);
 
         verify(registroService, times(1)).deletarRegistro(userId, registroId);
-        assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
-        assertNull(response.getBody());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNull(response.getBody().getContent());
     }
 
-
     @Test
-    public void recuperarHistorico_Deve_RetornarHistorico()
-    {
+    public void recuperarHistorico_Deve_RetornarHistorico() {
         var retornoService = new PaginationResponseDTOBuilder().build();
         when(historicoService.recuperarHistorico(1, null)).thenReturn(retornoService);
 
-        var retornoController = sonoController.recuperarHistorico(1, null);
+        ResponseEntity<EntityModel<PaginationResponseDTO>> retornoController = sonoController.recuperarHistorico(1, null);
 
-        assertEquals(retornoController.content(), retornoService.content());
-        assertEquals(retornoController.number(), retornoService.number());
-        assertEquals(retornoController.totalElements(), retornoService.totalElements());
-        assertEquals(retornoController.totalPages(), retornoService.totalPages());
-        assertEquals(retornoController.first(), retornoService.first());
-        assertEquals(retornoController.last(), retornoService.last());
+        PaginationResponseDTO contentController = retornoController.getBody().getContent();
+
+        assertEquals(contentController.content(), retornoService.content());
+        assertEquals(contentController.number(), retornoService.number());
+        assertEquals(contentController.totalElements(), retornoService.totalElements());
+        assertEquals(contentController.totalPages(), retornoService.totalPages());
+        assertEquals(contentController.first(), retornoService.first());
+        assertEquals(contentController.last(), retornoService.last());
     }
 
     @Test
@@ -155,10 +154,10 @@ public class SonoControllerTests {
         Relatorio relatorio = new Relatorio();
         when(relatorioService.gerar(userId)).thenReturn(relatorio);
 
-        ResponseEntity<Relatorio> response = sonoController.recuperarRelatorio(userId);
+        ResponseEntity<EntityModel<Relatorio>> response = sonoController.recuperarRelatorio(userId);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(relatorio, response.getBody());
+        assertEquals(relatorio, response.getBody().getContent());
     }
 
     @Test
