@@ -4,6 +4,7 @@ import br.com.fiap.dreamcontrol.dtos.UsuarioResponseDTO;
 import br.com.fiap.dreamcontrol.dtos.UsuarioUpdateDTO;
 import br.com.fiap.dreamcontrol.exceptions.RestBadRequestException;
 import br.com.fiap.dreamcontrol.models.Usuario;
+import br.com.fiap.dreamcontrol.services.TokenService;
 import br.com.fiap.dreamcontrol.services.UsuarioService;
 import jakarta.validation.Valid;
 import br.com.fiap.dreamcontrol.dtos.LoginDTO;
@@ -14,6 +15,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -24,6 +27,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class UsuarioController {
 
     private UsuarioService usuarioService;
+
 
     @Autowired
     public UsuarioController(UsuarioService usuarioService) {

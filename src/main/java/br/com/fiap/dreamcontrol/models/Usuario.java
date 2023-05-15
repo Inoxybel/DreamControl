@@ -1,25 +1,25 @@
 package br.com.fiap.dreamcontrol.models;
 
+import java.util.Collection;
 import java.util.List;
 
-import br.com.fiap.dreamcontrol.controllers.UsuarioController;
-import br.com.fiap.dreamcontrol.dtos.LoginDTO;
-import br.com.fiap.dreamcontrol.dtos.UsuarioUpdateDTO;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.*;
-import org.springframework.hateoas.EntityModel;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 
 @Data
 @NoArgsConstructor
 @Entity
-public class Usuario {
+public class Usuario implements UserDetails {
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,6 +50,35 @@ public class Usuario {
 
     @OneToOne
     private Relatorio relatorio;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority("ROLE_USUARIO"));
+    }
+    @Override
+    public String getPassword() {
+        return senha;
+    }
+    @Override
+    public String getUsername() {
+        return email;
+    }
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 
     public Usuario(String nome, String email, String senha) {
         if(!setNome(nome))
@@ -117,13 +146,4 @@ public class Usuario {
         return padrao.matcher(email).matches();
     }
 
-    public EntityModel<Usuario> toModel()
-    {
-        return EntityModel.of(
-                this,
-                linkTo(methodOn(UsuarioController.class).cadastrar(this)).withSelfRel(),
-                linkTo(methodOn(UsuarioController.class).atualizar(new UsuarioUpdateDTO(this.getNome(), this.getEmail(), this.getSenha()), this.getId())).withRel("atualizar"),
-                linkTo(methodOn(UsuarioController.class).logar(new LoginDTO(this.getEmail(), this.getSenha()))).withRel("login")
-        );
-    }
 }

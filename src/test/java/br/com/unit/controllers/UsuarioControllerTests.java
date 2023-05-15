@@ -13,6 +13,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -39,14 +40,16 @@ public class UsuarioControllerTests {
 
         when(service.cadastrar(usuario)).thenReturn(usuarioCadastrado);
 
-        ResponseEntity<UsuarioResponseDTO> response = controller.cadastrar(usuario);
+        ResponseEntity<EntityModel<UsuarioResponseDTO>> response = controller.cadastrar(usuario);
+
+        UsuarioResponseDTO responseBody = response.getBody().getContent();
 
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        assertNotNull(response.getBody());
-        assertEquals(usuarioCadastrado.getId(), response.getBody().id());
-        assertEquals(usuarioCadastrado.getNome(), response.getBody().nome());
-        assertEquals(usuarioCadastrado.getEmail(), response.getBody().email());
-        assertEquals(usuarioCadastrado.getSenha(), response.getBody().senha());
+        assertNotNull(responseBody);
+        assertEquals(usuarioCadastrado.getId(), responseBody.id());
+        assertEquals(usuarioCadastrado.getNome(), responseBody.nome());
+        assertEquals(usuarioCadastrado.getEmail(), responseBody.email());
+        assertEquals(usuarioCadastrado.getSenha(), responseBody.senha());
     }
 
     @Test
@@ -68,14 +71,14 @@ public class UsuarioControllerTests {
                 usuarioAtualizado.getSenha()
         ));
 
-        ResponseEntity<UsuarioResponseDTO> response = controller.atualizar(usuario, id);
+        EntityModel<UsuarioResponseDTO> response = controller.atualizar(usuario, id);
+        UsuarioResponseDTO responseBody = response.getContent();
 
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(response.getBody());
-        assertEquals(usuarioAtualizado.getId(), response.getBody().id());
-        assertEquals(usuarioAtualizado.getNome(), response.getBody().nome());
-        assertEquals(usuarioAtualizado.getEmail(), response.getBody().email());
-        assertEquals(usuarioAtualizado.getSenha(), response.getBody().senha());
+        assertNotNull(responseBody);
+        assertEquals(usuarioAtualizado.getId(), responseBody.id());
+        assertEquals(usuarioAtualizado.getNome(), responseBody.nome());
+        assertEquals(usuarioAtualizado.getEmail(), responseBody.email());
+        assertEquals(usuarioAtualizado.getSenha(), responseBody.senha());
     }
 
     @Test
@@ -88,10 +91,9 @@ public class UsuarioControllerTests {
 
         when(service.logar(credenciais)).thenReturn(loginResponse);
 
-        ResponseEntity<LoginResponseDTO> response = controller.logar(credenciais);
+        EntityModel<LoginResponseDTO> response = controller.logar(credenciais);
 
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(response.getBody());
-        assertEquals(loginResponse.id(), response.getBody().id());
+        assertNotNull(response.getContent());
+        assertEquals(loginResponse.id(), response.getContent().id());
     }
 }

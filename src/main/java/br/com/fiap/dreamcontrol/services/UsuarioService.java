@@ -14,95 +14,90 @@ import br.com.fiap.dreamcontrol.dtos.LoginDTO;
 import br.com.fiap.dreamcontrol.dtos.LoginResponseDTO;
 import br.com.fiap.dreamcontrol.models.Usuario;
 import br.com.fiap.dreamcontrol.repositories.UsuarioRepository;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UsuarioService {
 	Logger log = LoggerFactory.getLogger(RegistroService.class);
-	
-	private UsuarioRepository repository;
 
-	 @Autowired
- 	public UsuarioService(UsuarioRepository repository) {
-		 this.repository = repository;
-	 }
+	private UsuarioRepository repository;
+	private AuthenticationManager manager;
+	private PasswordEncoder encoder;
+	private TokenService tokenService;
+
+	@Autowired
+	public UsuarioService(UsuarioRepository repository, AuthenticationManager manager, PasswordEncoder encoder, TokenService tokenService) {
+		this.repository = repository;
+		this.manager = manager;
+		this.encoder = encoder;
+		this.tokenService = tokenService;
+	}
 
 	public Usuario cadastrar(Usuario usuario)
     {
-        log.info("Cadastrando usuario: " + usuario);
+        log.info("Cadastrando usuario.");
+		usuario.setSenha(encoder.encode(usuario.getSenha()));
+		repository.save(usuario);
 
 		return repository.save(usuario);
     }
 
-	public UsuarioResponseDTO atualizar(UsuarioUpdateDTO usuario, long id)
-	{
+	public UsuarioResponseDTO atualizar(UsuarioUpdateDTO usuario, long id) {
 		log.info("Atualizando cadastro de usuario pelo id: " + id);
 		Usuario repositoryResponse = repository
-										.findById(id)
-										.orElseThrow(() -> new RestNotFoundException("Usuario não encontrado"));
+				.findById(id)
+				.orElseThrow(() -> new RestNotFoundException("Usuario não encontrado"));
 
 		boolean isUpdatable = false;
 
-		if(usuario.nome() != null && !usuario.nome().equals(repositoryResponse.getNome()))
-		{
+		if(usuario.nome() != null && !usuario.nome().equals(repositoryResponse.getNome())) {
 			isUpdatable = repositoryResponse.setNome(usuario.nome());
 		}
 
-		if(usuario.email() != null && !usuario.email().equals(repositoryResponse.getEmail()))
-		{
+		if(usuario.email() != null && !usuario.email().equals(repositoryResponse.getEmail())) {
 			isUpdatable = repositoryResponse.setEmail(usuario.email());
 		}
 
-		if(usuario.senha() != null && !usuario.senha().equals(repositoryResponse.getSenha()))
-		{
+		if(usuario.senha() != null && !usuario.senha().equals(repositoryResponse.getSenha())) {
 			isUpdatable = repositoryResponse.setSenha(usuario.senha());
 		}
-			
-		if(isUpdatable)
-		{
+
+		if(isUpdatable) {
 			var respostaAtualizacao = atualizarUsuario(repositoryResponse);
 
 			return new UsuarioResponseDTO(
-				respostaAtualizacao.getId(),
-				respostaAtualizacao.getNome(),
-				respostaAtualizacao.getEmail(),
-				respostaAtualizacao.getSenha()
+					respostaAtualizacao.getId(),
+					respostaAtualizacao.getNome(),
+					respostaAtualizacao.getEmail(),
+					respostaAtualizacao.getSenha()
 			);
 		}
 
 		return null;
 	}
 
-	public Usuario recuperar(long id)
-	{
+	public Usuario recuperar(long id) {
 		log.info("Recuperando cadastro de usuario pelo id: " + id);
 
 		Usuario usuario = repository
-							.findById(id)
-							.orElseThrow(() -> new RestNotFoundException("Usuario não encontrado"));
+				.findById(id)
+				.orElseThrow(() -> new RestNotFoundException("Usuario não encontrado"));
 
 		return usuario;
 	}
 
-	public LoginResponseDTO logar(LoginDTO credenciais)
-	{
-		/*
-			O ideal básico é utilizar JWT para executar o sistema de validação
-			das credenciais, implantaremos ao decorrer do semestre ou alguma 
-			outra estratégia de acordo com os conteúdos da aula, por hora retorna id
-			e com esse ID a aplicação que consome tem acesso aos demais endpoints
-			que necessitam do id do usuário
-		*/
-		log.info("Validando credenciais informadas");
+	public LoginResponseDTO logar(LoginDTO credenciais) {
+		var authetication = manager.authenticate(credenciais.toAuthentication());
+		var token = tokenService.generateToken(credenciais);
 
-		Usuario usuario = repository
-							.buscarCredenciais(credenciais.email(), credenciais.senha())
-							.orElseThrow(() -> new RestUnauthorizedException("Usuário ou Senha incorretos"));
-		
-		long acesso = usuario.getId();
+		var userDetails = (Usuario)authetication.getPrincipal();
+		long acesso = userDetails.getId();
+
 		return new LoginResponseDTO(acesso);
-	} 
-	 
+	}
+
 	private Usuario atualizarUsuario(Usuario usuario)
     {
         log.info("Atualizando usuario: " + usuario);
