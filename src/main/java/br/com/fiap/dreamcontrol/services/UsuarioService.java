@@ -1,8 +1,7 @@
 package br.com.fiap.dreamcontrol.services;
 
 
-import br.com.fiap.dreamcontrol.dtos.UsuarioResponseDTO;
-import br.com.fiap.dreamcontrol.dtos.UsuarioUpdateDTO;
+import br.com.fiap.dreamcontrol.dtos.*;
 import br.com.fiap.dreamcontrol.exceptions.RestNotFoundException;
 import br.com.fiap.dreamcontrol.exceptions.RestUnauthorizedException;
 
@@ -10,8 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import br.com.fiap.dreamcontrol.dtos.LoginDTO;
-import br.com.fiap.dreamcontrol.dtos.LoginResponseDTO;
 import br.com.fiap.dreamcontrol.models.Usuario;
 import br.com.fiap.dreamcontrol.repositories.UsuarioRepository;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -88,14 +85,10 @@ public class UsuarioService {
 		return usuario;
 	}
 
-	public LoginResponseDTO logar(LoginDTO credenciais) {
-		var authetication = manager.authenticate(credenciais.toAuthentication());
-		var token = tokenService.generateToken(credenciais);
+	public TokenDTO logar(LoginDTO credenciais) {
+		manager.authenticate(credenciais.toAuthentication());
 
-		var userDetails = (Usuario)authetication.getPrincipal();
-		long acesso = userDetails.getId();
-
-		return new LoginResponseDTO(acesso);
+		return tokenService.generateToken(credenciais);
 	}
 
 	private Usuario atualizarUsuario(Usuario usuario)

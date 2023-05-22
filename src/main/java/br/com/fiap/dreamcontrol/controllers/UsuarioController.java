@@ -1,14 +1,11 @@
 package br.com.fiap.dreamcontrol.controllers;
 
-import br.com.fiap.dreamcontrol.dtos.UsuarioResponseDTO;
-import br.com.fiap.dreamcontrol.dtos.UsuarioUpdateDTO;
+import br.com.fiap.dreamcontrol.dtos.*;
 import br.com.fiap.dreamcontrol.exceptions.RestBadRequestException;
 import br.com.fiap.dreamcontrol.models.Usuario;
 import br.com.fiap.dreamcontrol.services.TokenService;
 import br.com.fiap.dreamcontrol.services.UsuarioService;
 import jakarta.validation.Valid;
-import br.com.fiap.dreamcontrol.dtos.LoginDTO;
-import br.com.fiap.dreamcontrol.dtos.LoginResponseDTO;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -72,11 +69,11 @@ public class UsuarioController {
     }
 
     @PostMapping("login")
-    public EntityModel<LoginResponseDTO> logar(@Valid @RequestBody LoginDTO credenciais)
+    public EntityModel<TokenDTO> logar(@Valid @RequestBody LoginDTO credenciais)
     {
         log.info("solicitando validação das credenciais informadas");
 
-        LoginResponseDTO responseService = usuarioService.logar(credenciais);
+        TokenDTO responseService = usuarioService.logar(credenciais);
 
         return EntityModel.of(
                 responseService,
