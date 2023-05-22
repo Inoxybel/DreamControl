@@ -37,7 +37,7 @@ public class Usuario implements UserDetails {
 
     @NotNull
     @NotBlank 
-    @Size(min = 8, max = 20, message = "Senha deve ter tamanho entre 8 e 20 caracteres")
+    @Size(min = 8, max = 60, message = "Senha deve ter tamanho entre 8 e 60 caracteres")
     @Column(nullable = false)
     private String senha;
 
